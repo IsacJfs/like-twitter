@@ -6,6 +6,12 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
+    /* Path */
+    "baseUrl": ".", // Required for path mapping
+    "paths": {
+      "@/*": ["src/*"]
+    },  // Path mapping
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
