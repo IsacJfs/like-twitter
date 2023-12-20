@@ -11,9 +11,34 @@ const RegisterModal = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [name, setName] = useState('')
   const [username, setUsername] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+
+  /**
+   * Registers a user with the provided user data.
+   * @param userData - The user data including email, username, and password.
+   * @returns A Promise that resolves to the response data from the registration API.
+   */
+  async function registerUser(userData: { email: string; username: string; password: string }) {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/auth/users/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(userData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Falha no registro');
+      }
+      console.log(response)
+      return await response.json(); // { user: { id, email, username }, token }
+
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   const onToggle = useCallback(() => {
     if (isLoading) {
@@ -28,13 +53,19 @@ const RegisterModal = () => {
     try {
       setIsLoading(true)
 
+      if (password !== confirmPassword) {
+        throw new Error('As senhas não coincidem');
+      }
+
+      await registerUser({ email, username, password });
+
       registerModal.onClose()
     } catch (e) {
       console.log(e)
     } finally {
       setIsLoading(false)
     }
-  }, [registerModal])
+  }, [registerModal, email, username, password, confirmPassword])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -42,12 +73,6 @@ const RegisterModal = () => {
         placeholder="E-mail"
         value={email}
         onChange={(e) => setEmail(e.target.value)}
-        disabled={isLoading}
-      />
-      <Input
-        placeholder="Nome"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
         disabled={isLoading}
       />
       <Input

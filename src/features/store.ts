@@ -5,7 +5,7 @@ import registerModalReducer from './slicers/registerSlice';
 export const store = configureStore({
   reducer: {
     loginModal: loginModalReducer,
-    registerModal: registerModalReducer
+    registerModal: registerModalReducer,
   },
 });
 

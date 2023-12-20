@@ -8,7 +8,7 @@ const RegisterModal = () => {
 
   const loginModal = useLoginModal()
   const registerModal = useRegisterModal()
-  const [email, setEmail] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [isLoading, setIsLoading] = useState(false)
 
@@ -21,24 +21,47 @@ const RegisterModal = () => {
     registerModal.onOpen()
   }, [loginModal, isLoading, registerModal])
 
+  const login = async (username:string, password: string) => {
+    try {
+      const response = await fetch('http://127.0.0.1:8000/auth/token/login/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username: username, password: password }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Erro ao fazer login');
+      }
+
+      const data = await response.json();
+      console.log('Login bem-sucedido:', data);
+      // Salve o token em algum lugar (local storage, estado global, etc.)
+    } catch (error) {
+      console.error('Erro ao fazer login:', error);
+    }
+  };
+
   const onSubmit = useCallback( async () => {
     try {
       setIsLoading(true)
-
+      await login(username, password)
       loginModal.onClose()
     } catch (e) {
       console.log(e)
     } finally {
       setIsLoading(false)
     }
-  }, [loginModal])
+  }, [loginModal, username, password])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Input
-        placeholder="E-mail"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        placeholder="Usuário"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
         disabled={isLoading}
       />
       <Input
