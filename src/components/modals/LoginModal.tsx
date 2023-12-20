@@ -37,8 +37,11 @@ const RegisterModal = () => {
       }
 
       const data = await response.json();
+      // armazena o token de autenticação no localStorage
+      localStorage.setItem('auth_token', data.auth_token); // never expires (unless user clicks "logout")
+      // sessionStorage.setItem('auth_token', data.auth_token); // expires when browser closed
       console.log('Login bem-sucedido:', data);
-      // Salve o token em algum lugar (local storage, estado global, etc.)
+
     } catch (error) {
       console.error('Erro ao fazer login:', error);
     }

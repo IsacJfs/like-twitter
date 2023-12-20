@@ -12,6 +12,7 @@ const RegisterModal = () => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [username, setUsername] = useState('')
+  const [name, setName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   /**
@@ -19,7 +20,7 @@ const RegisterModal = () => {
    * @param userData - The user data including email, username, and password.
    * @returns A Promise that resolves to the response data from the registration API.
    */
-  async function registerUser(userData: { email: string; username: string; password: string }) {
+  async function registerUser(userData: { email: string; username: string; password: string; name: string }) {
     try {
       const response = await fetch('http://127.0.0.1:8000/auth/users/', {
         method: 'POST',
@@ -57,7 +58,7 @@ const RegisterModal = () => {
         throw new Error('As senhas não coincidem');
       }
 
-      await registerUser({ email, username, password });
+      await registerUser({ email, username, password, name });
 
       registerModal.onClose()
     } catch (e) {
@@ -65,7 +66,7 @@ const RegisterModal = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [registerModal, email, username, password, confirmPassword])
+  }, [registerModal, email, username, password, confirmPassword, name])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -79,6 +80,12 @@ const RegisterModal = () => {
         placeholder="Usuário"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        disabled={isLoading}
+      />
+      <Input
+        placeholder="Primeiro nome"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
         disabled={isLoading}
       />
       <Input
