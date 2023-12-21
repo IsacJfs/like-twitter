@@ -4,8 +4,7 @@ import { useRegisterModal } from "@/features/hooks/useRegisterModal"
 import Input from "../Input"
 import Modal from "../Modal"
 
-const RegisterModal = () => {
-
+const LoginModal = () => {
   const loginModal = useLoginModal()
   const registerModal = useRegisterModal()
   const [username, setUsername] = useState("")
@@ -51,9 +50,10 @@ const RegisterModal = () => {
     try {
       setIsLoading(true)
       await login(username, password)
+
       loginModal.onClose()
     } catch (e) {
-      console.log(e)
+      console.error('Erro na submissão:', e)
     } finally {
       setIsLoading(false)
     }
@@ -110,4 +110,4 @@ const RegisterModal = () => {
 
 }
 
-export default RegisterModal
+export default LoginModal
