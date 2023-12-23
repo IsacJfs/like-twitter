@@ -1,10 +1,15 @@
 import { useCallback, useState } from "react"
+import { useDispatch } from "react-redux"
 import { useLoginModal } from "@/features/hooks/useLoginModal"
 import { useRegisterModal } from "@/features/hooks/useRegisterModal"
 import Input from "../Input"
 import Modal from "../Modal"
+import { setUser } from "@/features/slicers/userSlice"
 
 const LoginModal = () => {
+
+  const dispatch = useDispatch()
+
   const loginModal = useLoginModal()
   const registerModal = useRegisterModal()
   const [username, setUsername] = useState("")
@@ -20,7 +25,7 @@ const LoginModal = () => {
     registerModal.onOpen()
   }, [loginModal, isLoading, registerModal])
 
-  const login = async (username:string, password: string) => {
+  const login = useCallback(async (username:string, password: string) => {
     try {
       const response = await fetch('http://127.0.0.1:8000/auth/token/login/', {
         method: 'POST',
@@ -39,12 +44,14 @@ const LoginModal = () => {
       // armazena o token de autenticação no localStorage
       localStorage.setItem('auth_token', data.auth_token); // never expires (unless user clicks "logout")
       // sessionStorage.setItem('auth_token', data.auth_token); // expires when browser closed
+
       console.log('Login bem-sucedido:', data);
+      dispatch(setUser({username, token:data.auth_token}))
 
     } catch (error) {
       console.error('Erro ao fazer login:', error);
     }
-  };
+  }, [dispatch]);
 
   const onSubmit = useCallback( async () => {
     try {
@@ -56,8 +63,9 @@ const LoginModal = () => {
       console.error('Erro na submissão:', e)
     } finally {
       setIsLoading(false)
+
     }
-  }, [loginModal, username, password])
+  }, [loginModal, username, password, login])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -69,9 +77,10 @@ const LoginModal = () => {
       />
       <Input
         placeholder="Senha"
-        value={password}
         onChange={(e) => setPassword(e.target.value)}
+        value={password}
         disabled={isLoading}
+        type="password"
       />
     </div>
   )

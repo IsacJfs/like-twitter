@@ -6,6 +6,8 @@ import { store } from '@/features/store'
 import { Provider } from 'react-redux'
 import LoginModal from './components/modals/LoginModal'
 import RegisterModal from './components/modals/RegisterModal'
+import Perfil from './components/perfil'
+import EditModal from './components/modals/EditModal'
 
 function App() {
   return (
@@ -20,6 +22,8 @@ function App() {
         <Layout>
           <div className="text-3xl text-sky-500">
             <Header label="Home" />
+            <Perfil />
+            <EditModal />
           </div>
         </Layout>
         <LoginModal />
