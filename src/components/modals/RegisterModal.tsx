@@ -1,18 +1,18 @@
 import { useCallback, useState } from 'react'
 import { useRegisterModal } from '@/features/hooks/useRegisterModal'
-import { useLoginModal } from "@/features/hooks/useLoginModal"
+import { useLoginModal } from '@/features/hooks/useLoginModal'
 import Input from '../Input'
 import Modal from '../Modal'
 
 const RegisterModal = () => {
-
   const registerModal = useRegisterModal()
   const loginModal = useLoginModal()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [username, setUsername] = useState('')
-  const [name, setName] = useState('')
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
   /**
@@ -20,24 +20,29 @@ const RegisterModal = () => {
    * @param userData - The user data including email, username, and password.
    * @returns A Promise that resolves to the response data from the registration API.
    */
-  async function registerUser(userData: { email: string; username: string; password: string; name: string }) {
+  async function registerUser(userData: {
+    email: string
+    username: string
+    password: string
+    first_name: string
+    last_name: string
+  }) {
     try {
       const response = await fetch('http://127.0.0.1:8000/auth/users/', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(userData),
-      });
+        body: JSON.stringify(userData)
+      })
 
       if (!response.ok) {
-        throw new Error('Falha no registro');
+        throw new Error('Falha no registro')
       }
       console.log(response)
-      return await response.json(); // { user: { id, email, username }, token }
-
+      return await response.json() // { user: { id, email, username }, token }
     } catch (error) {
-      console.log(error);
+      console.log(error)
     }
   }
 
@@ -55,10 +60,10 @@ const RegisterModal = () => {
       setIsLoading(true)
 
       if (password !== confirmPassword) {
-        throw new Error('As senhas não coincidem');
+        throw new Error('As senhas não coincidem')
       }
 
-      await registerUser({ email, username, password, name });
+      await registerUser({ email, username, password, first_name: firstName, last_name: lastName })
 
       registerModal.onClose()
     } catch (e) {
@@ -66,7 +71,7 @@ const RegisterModal = () => {
     } finally {
       setIsLoading(false)
     }
-  }, [registerModal, email, username, password, confirmPassword, name])
+  }, [registerModal, email, username, password, confirmPassword, firstName, lastName])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
@@ -84,8 +89,14 @@ const RegisterModal = () => {
       />
       <Input
         placeholder="Primeiro nome"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
+        value={firstName}
+        onChange={(e) => setFirstName(e.target.value)}
+        disabled={isLoading}
+      />
+      <Input
+        placeholder="Último nome"
+        value={lastName}
+        onChange={(e) => setLastName(e.target.value)}
         disabled={isLoading}
       />
       <Input
