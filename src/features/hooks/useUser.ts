@@ -12,7 +12,7 @@ export const useUser = () => {
 
   const logout = () => {
     dispatch(logoutUser());
-    localStorage.removeItem('auth_token');
+    sessionStorage.removeItem('auth_token');
   };
 
   return {

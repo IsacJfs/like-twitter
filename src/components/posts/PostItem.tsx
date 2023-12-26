@@ -15,10 +15,8 @@ interface PostItemProps {
 const PostItem: React.FC<PostItemProps> = ({ post }) => {
   const navigate = useNavigate();
   const loginModal = useLoginModal();
-  console.log('O Post está sendo carregado');
-  console.log(post);
 
-  const { profile: currentUser } = useProfile();
+  const { profile: currentUser} = useProfile();
 
   const goToUser = useCallback((ev: { stopPropagation: () => void; }) => {
     ev.stopPropagation();

@@ -40,10 +40,9 @@ const LoginModal = () => {
         throw new Error(errorData.error || 'Erro ao fazer login');
       }
 
-      const data = await response.json();
-      // armazena o token de autenticação no localStorage
-      localStorage.setItem('auth_token', data.auth_token); // never expires (unless user clicks "logout")
-      // sessionStorage.setItem('auth_token', data.auth_token); // expires when browser closed
+      const data = await response.json(); // armazena o token de autenticação no localStorage
+      sessionStorage.setItem('auth_token', data.auth_token); // expires when browser closed
+      localStorage.setItem('user', username); // never expires (unless user clicks "logout")
 
       console.log('Login bem-sucedido:', data);
       dispatch(setUser({username, token:data.auth_token}))
@@ -59,6 +58,8 @@ const LoginModal = () => {
       await login(username, password)
 
       loginModal.onClose()
+      setUsername('')
+      setPassword('')
     } catch (e) {
       console.error('Erro na submissão:', e)
     } finally {
