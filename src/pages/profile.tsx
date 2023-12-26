@@ -1,9 +1,14 @@
-
-import ProfileHero from './profile/ProfileHero';
-import ProfileUser from './profile/ProfileUser';
+// Note: Página de perfil do usuário
+// hooks personalizados
 import { useUser } from '@/features/hooks/useUser';
 
-const Perfil = () => {
+// components
+import ProfileHero from '@/components/profile/ProfileHero';
+import ProfileUser from '@/components/profile/ProfileUser';
+import PostFeed from '@/components/posts/PostFeed';
+
+
+const Profile = () => {
   const user = useUser();
 
   if (!user.user) {
@@ -11,7 +16,7 @@ const Perfil = () => {
   }
 
   if (user.user.username === null) {
-    return <div>Carregando...</div>;
+    return <div>Faça Login para carregar o conteúdo</div>;
   }
 
   if (user.user.username === undefined) {
@@ -23,12 +28,9 @@ const Perfil = () => {
     <div>
       <ProfileHero userId={user.user.username} />
       <ProfileUser userId={user.user.username} />
+      <PostFeed />
     </div>
   );
 };
 
-export default Perfil;
-
-// loginSuccess: (state, action: PayloadAction<{userId: number}>) => {
-//   state.userId = action.payload.userId;
-// },
+export default Profile;

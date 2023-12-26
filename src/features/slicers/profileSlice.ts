@@ -3,7 +3,7 @@ import axios from 'axios';
 import { setUser } from './userSlice';
 
 export interface UserState {
-  id: string | null;
+  id: string;
   username: string | null;
   email: string | null;
   first_name: string | null;
@@ -25,7 +25,7 @@ export interface ProfileState {
 
 const initialState: ProfileState = {
   user: {
-    id: null,
+    id: '',
     username: null,
     email: null,
     first_name: null,
@@ -86,7 +86,7 @@ export const profileSlice = createSlice({
         state.isLoading = false;
       })
       .addCase(setUser, (state, action) => {
-        const userId = action.payload.id;
+        const userId = action.payload.username;
         if (userId) {
           state.user.id = userId;
         }

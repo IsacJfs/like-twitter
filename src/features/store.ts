@@ -4,6 +4,7 @@ import registerModalReducer from './slicers/registerSlice';
 import userReducer from './slicers/userSlice';
 import profileReducer from './slicers/profileSlice';
 import editReducer from './slicers/editModalSlice';
+import postReducer from './slicers/postSlice';
 
 export const store = configureStore({
   reducer: {
@@ -12,6 +13,7 @@ export const store = configureStore({
     user: userReducer,
     profile: profileReducer,
     editModal: editReducer,
+    post: postReducer,
   },
 });
 

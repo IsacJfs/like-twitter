@@ -4,6 +4,7 @@ import { BiLogOut } from "react-icons/bi"
 import SidebarLogo from "./SidebarLogo"
 import SidebarItem from "./SidebarItem"
 import SidebarTweetButton from "./SidebarTweetButton"
+import { Link } from "react-router-dom"
 
 const Sidebar = () => {
   const items = [
@@ -23,6 +24,11 @@ const Sidebar = () => {
       icon: BsPerson
     },
   ]
+
+  const goto = (href: string) => {
+    return <Link to={href} />
+  }
+
   return (
   <div className="col-span-1 h-full pr-4 md:pr-6">
     <div className="flex flex-col items-end">
@@ -34,6 +40,7 @@ const Sidebar = () => {
           href={item.href}
           label={item.label}
           icon={item.icon}
+          onClick={() => {goto(item.href)}}
         />
         ))}
         <SidebarItem onClick={() => {}} icon={BiLogOut} label="Logout"/>

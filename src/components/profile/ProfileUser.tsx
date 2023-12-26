@@ -13,7 +13,7 @@ const ProfileUser: React.FC<ProfileUserProps> = ({userId}) => {
 
   useEffect(() => {
     loadProfile(userId)
-  }, [userId]);
+  }, [userId, loadProfile]);
 
   const createdAt = useMemo(() => {
     if (!profile.user?.date_joined) {
@@ -28,7 +28,7 @@ const ProfileUser: React.FC<ProfileUserProps> = ({userId}) => {
       <div className="mt-16 px-4">
         <div className="flex flex-col">
           <p className="text-white text-2xl font-semibold">
-            {profile.user?.first_name + ' ' + profile.user?.last_name}
+            {profile.user.first_name + ' ' + profile.user.last_name}
           </p>
           <p className="text-md text-neutral-500">@{profile?.user.username}</p>
         </div>
