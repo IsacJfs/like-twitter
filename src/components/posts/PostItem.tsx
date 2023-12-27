@@ -8,6 +8,8 @@ import { useProfile } from '@/features/hooks/useProfile';
 import Avatar from '../Avatar';
 import { useNavigate } from 'react-router';
 import { PostState } from '@/features/slicers/postSlice';
+import { BiHeart } from 'react-icons/bi';
+
 interface PostItemProps {
   post: PostState;
 }
@@ -56,7 +58,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
         transition
       ">
       <div className="flex flex-row items-start gap-3">
-        <Avatar userId={currentUser.user.id} hasBorder/>
+        <Avatar userId={String(post.id)} hasBorder/>
         <div>
           <div className="flex flex-row items-center gap-2">
             <p
@@ -67,7 +69,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
                 cursor-pointer
                 hover:underline
             ">
-              {currentUser.user?.first_name + ' ' + currentUser.user?.last_name}
+              {post.autor_name}
             </p>
             <span
               onClick={goToUser}
@@ -78,7 +80,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
                 hidden
                 md:block
             ">
-              @{currentUser.user?.username}
+              @{post.autor_username}
             </span>
             <span className="text-neutral-500 text-sm">
               {createdAt}
@@ -101,8 +103,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
             ">
               <AiOutlineMessage size={20} />
               <p>
-                5
-                {/* {post?. || 0} */}
+                {post.comentarios.length}
               </p>
             </div>
             <div
@@ -117,6 +118,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
                 transition
                 hover:text-red-500
             ">
+              <BiHeart size={20} />
             </div>
           </div>
         </div>

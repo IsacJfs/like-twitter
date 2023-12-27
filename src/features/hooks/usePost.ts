@@ -8,10 +8,9 @@ export const usePost = () => {
   // Corrigir o seletor para pegar os posts do estado correto
   const posts = useSelector((state: RootState) => state.post);
 
-  const loadPosts = () => {
+  const loadPosts = useCallback(() => {
     dispatch(fetchPosts());
-    return posts;
-  };
+  }, [dispatch]);
 
   const loadPostsByUser = useCallback((username: string) => {
     dispatch(fetchPostsByUser(username));
@@ -21,7 +20,7 @@ export const usePost = () => {
     dispatch(addPost(post));
   };
 
-  const handleRemovePost = (postId: string) => {
+  const handleRemovePost = (postId: number) => {
     dispatch(removePost(postId));
   };
 

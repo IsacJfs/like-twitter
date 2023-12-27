@@ -4,9 +4,13 @@ import { UserState } from './profileSlice';
 
 
 export interface PostState {
-  id: string;
-  autor: UserState;
+  id: number;
+  autor: number | UserState;
+  autor_name: string;
+  autor_username: string;
+  comentarios: string[];
   conteudo: string | null;
+  curtidas_count: number;
   data_criacao: string | null;
   data_atualizacao: string | null;
 }
@@ -23,7 +27,7 @@ const initialState: PostsState = {
   error: null,
 };
 
-const postsUrl = 'http://127.0.0.1:8000/api/postagens';
+const postsUrl = 'http://127.0.0.1:8000/api/postagens/';
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
@@ -67,7 +71,7 @@ const postsSlice = createSlice({
     addPost(state, action: PayloadAction<PostState>) {
       state.posts.push(action.payload);
     },
-    removePost(state, action: PayloadAction<string>) {
+    removePost(state, action: PayloadAction<number>) {
       state.posts = state.posts.filter(post => post.id !== action.payload);
     },
   },
