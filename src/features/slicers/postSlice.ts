@@ -46,6 +46,24 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
+export const fentchPost = createAsyncThunk(
+  'posts/fentchPost',
+  async (id: number, thunkAPI) => {
+    try {
+      const url = `${postsUrl}${id}/`;
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkAPI.rejectWithValue(
+          error.response?.data?.message || 'Erro ao buscar postagem.'
+        );
+      }
+      return thunkAPI.rejectWithValue('Erro desconhecido ao buscar postagem.');
+    }
+  }
+);
+
 export const fetchPostsByUser = createAsyncThunk(
   'posts/fetchPostsByUser',
   async (username: string, thunkAPI) => {
@@ -98,6 +116,18 @@ const postsSlice = createSlice({
         state.posts = action.payload;
       })
       .addCase(fetchPostsByUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fentchPost.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fentchPost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.posts = action.payload;
+      })
+      .addCase(fentchPost.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

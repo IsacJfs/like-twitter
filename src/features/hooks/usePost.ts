@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { fetchPosts, fetchPostsByUser, addPost, removePost, PostState } from "../slicers/postSlice";
+import { fetchPosts, fentchPost, fetchPostsByUser, addPost, removePost, PostState } from "../slicers/postSlice";
 import { useCallback } from "react";
 
 export const usePost = () => {
@@ -10,6 +10,10 @@ export const usePost = () => {
 
   const loadPosts = useCallback(() => {
     dispatch(fetchPosts());
+  }, [dispatch]);
+
+  const loadPost = useCallback((postId: number) => {
+    dispatch(fentchPost(postId));
   }, [dispatch]);
 
   const loadPostsByUser = useCallback((username: string) => {
@@ -27,6 +31,7 @@ export const usePost = () => {
   return {
     posts,
     loadPosts,
+    loadPost,
     loadPostsByUser,
     handleAddPost,
     handleRemovePost
