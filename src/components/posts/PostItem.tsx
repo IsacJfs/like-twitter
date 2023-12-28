@@ -1,6 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { AiOutlineMessage } from 'react-icons/ai';
-import { formatDistanceToNowStrict } from 'date-fns';
+import { formatDistanceToNowStrict, parseISO } from 'date-fns';
 
 import { useLoginModal } from '@/features/hooks/useLoginModal';
 import { useProfile } from '@/features/hooks/useProfile';
@@ -22,12 +22,12 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
 
   const goToUser = useCallback((ev: { stopPropagation: () => void; }) => {
     ev.stopPropagation();
-    navigate(`/users/${currentUser.user?.username}`)
-  }, [navigate, currentUser]);
+    navigate(`/users/${post.autor_username}`)
+  }, [navigate, post.autor_username]);
 
   const goToPost = useCallback(() => {
-    navigate(`/postagens/${currentUser.user.username}`);
-  }, [navigate, currentUser]);
+    navigate(`/postagens/${post.id}`);
+  }, [navigate, post.id]);
 
   const onLike = useCallback(async (ev: { stopPropagation: () => void; }) => {
     ev.stopPropagation();
@@ -42,8 +42,8 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
     if (!post.data_criacao) {
       return null;
     }
-
-    return formatDistanceToNowStrict(new Date());
+    const data_criacao = parseISO(post.data_criacao);
+    return formatDistanceToNowStrict(data_criacao);
   }, [post.data_criacao])
 
   return (
