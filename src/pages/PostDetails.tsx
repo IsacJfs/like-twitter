@@ -5,12 +5,17 @@ import { useParams } from "react-router";
 const PostDetails = () => {
 
   const param = useParams();
-  const id = (parseInt(param.id as string)) - 1;
-  const { posts, loadPost } = usePost();
+  const id = (parseInt(param.id as string) - 1);
+  const { posts } = usePost();
 
-  if (!posts.posts[id]) {
-    loadPost(id);
+  if (posts.posts[id] === undefined) {
+    return (
+      <div>
+        <h1>Carregando...</h1>
+      </div>
+    )
   }
+
 
   return (
     <div>
