@@ -5,12 +5,10 @@ import { useEffect } from 'react';
 
 const PostFeed: React.FC = () => {
   const { posts, loadPosts} = usePost();
-  console.log(posts);
 
   useEffect(() => {
     loadPosts();
   }, [loadPosts]);
-  console.log(posts);
 
   return (
     <>
