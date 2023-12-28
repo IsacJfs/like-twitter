@@ -16,7 +16,7 @@ const Profile = () => {
     <div>
       <ProfileHero userId={username} />
       <ProfileUser userId={username} />
-      <PostFeed />
+      <PostFeed username={username}/>
     </div>
   );
 };

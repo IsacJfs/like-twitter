@@ -68,7 +68,7 @@ export const fetchPostsByUser = createAsyncThunk(
   'posts/fetchPostsByUser',
   async (username: string, thunkAPI) => {
     try {
-      const url = `${postsUrl}/${username}/`; // Supondo que a API usa query para filtrar por usuário
+      const url = `${postsUrl}${username}/`; // Supondo que a API usa query para filtrar por usuário
       const response = await axios.get(url);
       return response.data;
     } catch (error) {
