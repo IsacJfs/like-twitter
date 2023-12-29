@@ -31,7 +31,6 @@ const Post = () => {
           body: JSON.stringify({ autor: autor, conteudo: conteudo })
         }
       )
-      console.log('response', response)
       if (!response.ok) {
         const errorData = await response.json()
         throw new Error(errorData.error || 'Erro ao fazer post')

@@ -4,9 +4,13 @@ import { UserState } from './profileSlice';
 
 
 export interface PostState {
-  id: string;
-  autor: UserState;
+  id: number;
+  autor: number | UserState;
+  autor_name: string;
+  autor_username: string;
+  comentarios: string[];
   conteudo: string | null;
+  curtidas_count: number;
   data_criacao: string | null;
   data_atualizacao: string | null;
 }
@@ -23,7 +27,7 @@ const initialState: PostsState = {
   error: null,
 };
 
-const postsUrl = 'http://127.0.0.1:8000/api/postagens';
+const postsUrl = 'http://127.0.0.1:8000/api/postagens/';
 
 export const fetchPosts = createAsyncThunk(
   'posts/fetchPosts',
@@ -42,11 +46,29 @@ export const fetchPosts = createAsyncThunk(
   }
 );
 
+export const fentchPost = createAsyncThunk(
+  'posts/fentchPost',
+  async (id: number, thunkAPI) => {
+    try {
+      const url = `${postsUrl}${id}/`;
+      const response = await axios.get(url);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        return thunkAPI.rejectWithValue(
+          error.response?.data?.message || 'Erro ao buscar postagem.'
+        );
+      }
+      return thunkAPI.rejectWithValue('Erro desconhecido ao buscar postagem.');
+    }
+  }
+);
+
 export const fetchPostsByUser = createAsyncThunk(
   'posts/fetchPostsByUser',
   async (username: string, thunkAPI) => {
     try {
-      const url = `${postsUrl}/${username}/`; // Supondo que a API usa query para filtrar por usuário
+      const url = `${postsUrl}${username}/`; // Supondo que a API usa query para filtrar por usuário
       const response = await axios.get(url);
       return response.data;
     } catch (error) {
@@ -67,7 +89,7 @@ const postsSlice = createSlice({
     addPost(state, action: PayloadAction<PostState>) {
       state.posts.push(action.payload);
     },
-    removePost(state, action: PayloadAction<string>) {
+    removePost(state, action: PayloadAction<number>) {
       state.posts = state.posts.filter(post => post.id !== action.payload);
     },
   },
@@ -94,6 +116,18 @@ const postsSlice = createSlice({
         state.posts = action.payload;
       })
       .addCase(fetchPostsByUser.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
+      })
+      .addCase(fentchPost.pending, (state) => {
+        state.isLoading = true;
+        state.error = null;
+      })
+      .addCase(fentchPost.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.posts = action.payload;
+      })
+      .addCase(fentchPost.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       });

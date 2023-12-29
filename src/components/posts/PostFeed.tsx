@@ -2,17 +2,24 @@ import {usePost} from '@/features/hooks/usePost';
 
 import PostItem from './PostItem';
 import { useEffect } from 'react';
-import { useUser } from '@/features/hooks/useUser';
 
-const PostFeed: React.FC = () => {
-  const { posts, loadPostsByUser} = usePost();
-  const { user } = useUser();
+interface PostFeedProps {
+  username?: string;
+}
+
+const PostFeed: React.FC<PostFeedProps> = ({username}) => {
+  const { posts, loadPosts, loadPostsByUser} = usePost();
+
   useEffect(() => {
-    if (!user.username) {
+    if (username) {
+      loadPostsByUser(username);
       return;
     }
-    return loadPostsByUser(user.username);
-  }, [user.username, loadPostsByUser]);
+    if (!username) {
+      loadPosts();
+      return;
+    }
+  }, [loadPosts, loadPostsByUser, username]);
 
   return (
     <>

@@ -31,10 +31,9 @@ const Sidebar = () => {
     } catch (error) {
       console.error('Erro no logout:', error);
     } finally {
-      console.log('Removendo tokens...');
-      console.log(sessionStorage.getItem('auth_token'));
+
       sessionStorage.removeItem('auth_token');
-      console.log(sessionStorage.getItem('auth_token'));
+ 
       localStorage.removeItem('user');
       onOpen();
     }

@@ -1,34 +1,22 @@
 // Note: Página de perfil do usuário
 // hooks personalizados
-import { useUser } from '@/features/hooks/useUser';
+// import { useUser } from '@/features/hooks/useUser';
 
 // components
 import ProfileHero from '@/components/profile/ProfileHero';
 import ProfileUser from '@/components/profile/ProfileUser';
 import PostFeed from '@/components/posts/PostFeed';
-
+import { useParams } from 'react-router-dom';
 
 const Profile = () => {
-  const user = useUser();
-
-  if (!user.user) {
-    return <div>User não carregado</div>;
-  }
-
-  if (user.user.username === null) {
-    return <div>Faça Login para carregar o conteúdo</div>;
-  }
-
-  if (user.user.username === undefined) {
-    console.log(user);
-    return <div>Erro ao carregar o usuário</div>;
-  }
+  const params = useParams();
+  const username = params.username as string; // aqui ta puxando o username da url
 
   return (
     <div>
-      <ProfileHero userId={user.user.username} />
-      <ProfileUser userId={user.user.username} />
-      <PostFeed />
+      <ProfileHero userId={username} />
+      <ProfileUser userId={username} />
+      <PostFeed username={username}/>
     </div>
   );
 };
