@@ -4,6 +4,7 @@ import { formatDistanceToNowStrict, parseISO } from 'date-fns';
 
 import { useLoginModal } from '@/features/hooks/useLoginModal';
 import { useProfile } from '@/features/hooks/useProfile';
+import { useLike } from '@/features/hooks/useLike';
 
 import Avatar from '../Avatar';
 import { useNavigate } from 'react-router';
@@ -19,6 +20,8 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
   const loginModal = useLoginModal();
 
   const { profile: currentUser} = useProfile();
+  const { handleCurtir } = useLike()
+  const token = sessionStorage.getItem('auth_token');
 
   const goToUser = useCallback((ev: { stopPropagation: () => void; }) => {
     ev.stopPropagation();
@@ -35,8 +38,8 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
     if (!currentUser) {
       return loginModal.onOpen();
     }
-
-  }, [loginModal, currentUser]);
+    handleCurtir(String(post.id), token as string);
+  }, [currentUser, handleCurtir, post.id, token, loginModal]);
 
   const createdAt = useMemo(() => {
     if (!post.data_criacao) {
@@ -119,6 +122,9 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
                 hover:text-red-500
             ">
               <BiHeart size={20} />
+              <p>
+                {post.curtidas_count}
+              </p>
             </div>
           </div>
         </div>

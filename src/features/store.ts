@@ -5,6 +5,7 @@ import userReducer from './slicers/userSlice';
 import profileReducer from './slicers/profileSlice';
 import editReducer from './slicers/editModalSlice';
 import postReducer from './slicers/postSlice';
+import curtirReducer from './slicers/LikePost'
 
 export const store = configureStore({
   reducer: {
@@ -14,6 +15,7 @@ export const store = configureStore({
     profile: profileReducer,
     editModal: editReducer,
     post: postReducer,
+    curtir: curtirReducer,
   },
 });
 
