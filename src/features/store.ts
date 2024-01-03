@@ -1,11 +1,12 @@
-import { configureStore } from '@reduxjs/toolkit';
-import loginModalReducer from './slicers/loginModalSlice';
-import registerModalReducer from './slicers/registerSlice';
-import userReducer from './slicers/userSlice';
-import profileReducer from './slicers/profileSlice';
-import editReducer from './slicers/editModalSlice';
-import postReducer from './slicers/postSlice';
-import curtirReducer from './slicers/LikePost'
+import { configureStore } from '@reduxjs/toolkit'
+import loginModalReducer from './auth/loginModalSlice'
+import registerModalReducer from './users/registerSlice'
+import userReducer from './users/userSlice'
+import profileReducer from './profile/profileSlice'
+import editReducer from './profile/editModalSlice'
+import postReducer from './posts/postSlice'
+import curtirReducer from './posts/likePost'
+import loginReducer from './auth/loginSlice'
 
 export const store = configureStore({
   reducer: {
@@ -16,8 +17,9 @@ export const store = configureStore({
     editModal: editReducer,
     post: postReducer,
     curtir: curtirReducer,
-  },
-});
+    login: loginReducer
+  }
+})
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
+export type AppDispatch = typeof store.dispatch
