@@ -7,6 +7,7 @@ import editReducer from './profile/editModalSlice'
 import postReducer from './posts/postSlice'
 import curtirReducer from './posts/likePostSlice'
 import loginReducer from './auth/loginSlice'
+import addPostReducer from './posts/addPostSlice'
 
 export const store = configureStore({
   reducer: {
@@ -17,7 +18,8 @@ export const store = configureStore({
     editModal: editReducer,
     post: postReducer,
     curtir: curtirReducer,
-    login: loginReducer
+    login: loginReducer,
+    addPost: addPostReducer,
   }
 })
 
