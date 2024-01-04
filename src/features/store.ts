@@ -8,6 +8,7 @@ import postReducer from './posts/postSlice'
 import curtirReducer from './posts/likePostSlice'
 import loginReducer from './auth/loginSlice'
 import addPostReducer from './posts/addPostSlice'
+import followReducer from './follow/followSlice'
 
 export const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ export const store = configureStore({
     curtir: curtirReducer,
     login: loginReducer,
     addPost: addPostReducer,
+    addFollower: followReducer,
   }
 })
 
