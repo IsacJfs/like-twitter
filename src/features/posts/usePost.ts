@@ -1,8 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store'
-import { addPost, removePost, PostState } from './postSlice'
+import { addPost, removePost } from './postSlice'
 import { useCallback } from 'react'
-import { fetchPosts, fentchPost, fetchPostsByUser } from './postThunk'
+import { fetchPosts, fentchPost, fetchPostsByUser } from './getThunk'
+import { PostState } from './types'
 
 export const usePost = () => {
   const dispatch = useDispatch<AppDispatch>()

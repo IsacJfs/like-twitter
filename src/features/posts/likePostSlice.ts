@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { curtirPostagem } from './postThunk'
+import { curtirPostagem } from './getThunk'
 
 interface CurtirState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed'

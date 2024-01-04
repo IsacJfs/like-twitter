@@ -1,24 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { UserState } from '../profile/profileSlice'
-import { fetchPosts, fentchPost, fetchPostsByUser } from './postThunk'
+import { fetchPosts, fentchPost, fetchPostsByUser } from './getThunk'
+import { PostsState, PostState } from './types'
 
-export interface PostState {
-  id: number
-  autor: number | UserState
-  autor_name: string
-  autor_username: string
-  comentarios: string[]
-  conteudo: string | null
-  curtidas_count: number
-  data_criacao: string | null
-  data_atualizacao: string | null
-}
-
-export interface PostsState {
-  posts: PostState[]
-  isLoading: boolean
-  error: string | null
-}
 
 const initialState: PostsState = {
   posts: [],

@@ -5,10 +5,13 @@ import Input from './Input'
 import { useUser } from '@/features/users/useUser'
 import PostFeed from './posts/PostFeed'
 import { useProfile } from '@/features/profile/useProfile'
+import { NewPost } from '@/features/posts/types'
+import { useAddPost } from '@/features/posts/useAddPost'
 
 const Post = () => {
   const [posts, setPosts] = useState('')
   const { profile, loadProfile } = useProfile()
+  const { addNewPost } = useAddPost()
 
   const user = useUser()
 
@@ -19,38 +22,19 @@ const Post = () => {
     loadProfile(user.user.username)
   }, [loadProfile, user.user.username])
 
-  const post = useCallback(async (conteudo: string, autor: string) => {
-    try {
-      const response = await fetch(
-        'http://127.0.0.1:8000/api/postagens/adicionar/',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ autor: autor, conteudo: conteudo })
-        }
-      )
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || 'Erro ao fazer post')
-      }
-    } catch (error) {
-      console.error('Erro ao fazer post:', error)
-    }
-  }, [])
-
   const onSubmit = useCallback(async () => {
     try {
       if (!profile.user.id) {
         throw new Error('Usuário não logado')
       }
-      await post(posts, profile.user.id)
-      setPosts('')
+      console.log(profile.user.id)
+      console.log(posts)
+      addNewPost({ autor: profile.user.id, conteudo: posts } as NewPost),
+      setPosts('') // limpar o campo
     } catch (error) {
       console.error('Erro ao fazer post:', error)
     }
-  }, [post, posts, profile.user.id])
+  }, [addNewPost, posts, profile.user.id])
 
   return (
     <div className="text-white">
