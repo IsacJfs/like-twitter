@@ -1,21 +1,21 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from 'react'
 
-import { useProfile } from "@/features/hooks/useProfile";
-import { useEditModal } from "@/features/hooks/useEditModal";
+import { useProfile } from '@/features/profile/useProfile'
+import { useEditModal } from '@/features/profile/useEditModal'
 
-import Input from "../Input";
-import Modal from "../Modal";
-import ImageUpload from "../ImageUpload";
+import Input from '../Input'
+import Modal from '../Modal'
+import ImageUpload from '../ImageUpload'
 
 const EditModal = () => {
-  const { profile } = useProfile();
-  const editModal = useEditModal();
+  const { profile } = useProfile()
+  const { editProfile, isOpen, isLoading, onClose } = useEditModal()
 
-  const [profilePicture, setProfilePicture] = useState('');
-  const [coverPicture, setCoverPicture] = useState('');
-  const [name, setName] = useState('');
-  const [username, setUsername] = useState('');
-  const [description, setDescription] = useState('');
+  const [profilePicture, setProfilePicture] = useState('')
+  const [coverPicture, setCoverPicture] = useState('')
+  const [name, setName] = useState('')
+  const [username, setUsername] = useState('')
+  const [description, setDescription] = useState('')
 
   useEffect(() => {
     setProfilePicture(profile?.profilePicture || '')
@@ -23,51 +23,54 @@ const EditModal = () => {
     setName(profile.user?.first_name + ' ' + profile.user?.last_name)
     setUsername(profile.user?.username || '')
     setDescription(profile?.description || '')
-  }, [profile?.user, profile?.description, profile?.profilePicture, profile?.coverPicture]);
-
-  const [isLoading, setIsLoading] = useState(false);
-
-  const edit = useCallback(async (name: string, username: string, description: string, profilePicture: string, coverPicture: string) => {
-    try {
-      const response = await fetch('http://127.0.0.1:8000/profile/', {
-        method: 'PATCH',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Token ${sessionStorage.getItem('auth_token')}`
-        },
-        body: JSON.stringify({ name, username, description, profilePicture, coverPicture }),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Erro ao fazer login');
-      }
-
-      const data = await response.json();
-
-      console.log('Edit bem-sucedido:', data);
-    } catch (error) {
-      console.error('Erro ao fazer login:', error);
-    }
-  } , []);
+  }, [
+    profile?.user,
+    profile?.description,
+    profile?.profilePicture,
+    profile?.coverPicture
+  ])
 
   const onSubmit = useCallback(async () => {
     try {
-      setIsLoading(true);
-
-      await edit(name, username, description, profilePicture, coverPicture);
-      editModal.onClose();
+      isLoading
+      editProfile({
+        coverPicture,
+        description,
+        name,
+        profilePicture,
+        username
+      })
+      onClose()
     } catch (error) {
-      console.log(error);
+      console.log(error)
     } finally {
-      setIsLoading(false);
+      isLoading
     }
-  }, [edit, name, username, description, profilePicture, coverPicture, editModal]);
+  }, [
+    coverPicture,
+    description,
+    editProfile,
+    isLoading,
+    name,
+    onClose,
+    profilePicture,
+    username
+  ])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">
-      <ImageUpload value={profilePicture} disabled={isLoading} onChange={(image) => setProfilePicture(image)} label="Upload profile image" />
-      <ImageUpload value={coverPicture} disabled={isLoading} onChange={(image) => setCoverPicture(image)} label="Upload cover image" />
+      <ImageUpload
+        value={profilePicture}
+        disabled={isLoading}
+        onChange={(image) => setProfilePicture(image)}
+        label="Upload profile image"
+      />
+      <ImageUpload
+        value={coverPicture}
+        disabled={isLoading}
+        onChange={(image) => setCoverPicture(image)}
+        label="Upload cover image"
+      />
       <Input
         placeholder="Name"
         onChange={(e) => setName(e.target.value)}
@@ -92,14 +95,14 @@ const EditModal = () => {
   return (
     <Modal
       disabled={isLoading}
-      isOpen={editModal.isOpen}
+      isOpen={isOpen}
       title="Edit your profile"
       actionLabel="Save"
-      onClose={editModal.onClose}
+      onClose={onClose}
       onSubmit={onSubmit}
       body={bodyContent}
     />
-  );
+  )
 }
 
-export default EditModal;
+export default EditModal
