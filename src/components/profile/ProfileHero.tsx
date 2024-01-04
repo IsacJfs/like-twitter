@@ -1,4 +1,4 @@
-import { useProfile } from '@/features/hooks/useProfile'
+import { useProfile } from '@/features/profile/useProfile'
 import Avatar from '../Avatar'
 
 interface UserHeroProps {

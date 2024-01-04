@@ -2,18 +2,18 @@ import { useEffect, useMemo } from 'react'
 import { BiCalendar } from 'react-icons/bi'
 import { format } from 'date-fns'
 
-import { useProfile } from '@/features/hooks/useProfile'
+import { useProfile } from '@/features/profile/useProfile'
 
 interface ProfileUserProps {
   userId: string
 }
 
-const ProfileUser: React.FC<ProfileUserProps> = ({userId}) => {
+const ProfileUser: React.FC<ProfileUserProps> = ({ userId }) => {
   const { profile, loadProfile } = useProfile()
 
   useEffect(() => {
     loadProfile(userId)
-  }, [userId, loadProfile]);
+  }, [userId, loadProfile])
 
   const createdAt = useMemo(() => {
     if (!profile.user?.date_joined) {

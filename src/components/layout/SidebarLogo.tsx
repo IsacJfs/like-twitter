@@ -1,7 +1,6 @@
 import { BsTwitterX } from 'react-icons/bs'
 
 const SidebarLogo = () => {
-
   return (
     <div
       className="
@@ -18,7 +17,7 @@ const SidebarLogo = () => {
       transition
     "
     >
-      <BsTwitterX size={28} color="white"/>
+      <BsTwitterX size={28} color="white" />
     </div>
   )
 }

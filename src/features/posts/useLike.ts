@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { curtirPostagem } from './likePostSlice'
 import { AppDispatch, RootState } from '../store'
+import { curtirPostagem } from './postThunk'
 
 export const useLike = () => {
   const dispatch = useDispatch<AppDispatch>()

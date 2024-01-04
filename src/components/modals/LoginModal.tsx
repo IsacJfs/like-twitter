@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import { useRegisterModal } from '@/features/users/useRegisterModal'
+import { useRegisterModal } from '@/features/register/useRegisterModal'
 import Input from '../Input'
 import Modal from '../Modal'
 import { useUser } from '@/features/auth/useLogin'

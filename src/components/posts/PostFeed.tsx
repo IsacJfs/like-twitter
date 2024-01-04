@@ -1,33 +1,33 @@
-import {usePost} from '@/features/hooks/usePost';
+import { usePost } from '@/features/posts/usePost'
 
-import PostItem from './PostItem';
-import { useEffect } from 'react';
+import PostItem from './PostItem'
+import { useEffect } from 'react'
 
 interface PostFeedProps {
-  username?: string;
+  username?: string
 }
 
-const PostFeed: React.FC<PostFeedProps> = ({username}) => {
-  const { posts, loadPosts, loadPostsByUser} = usePost();
+const PostFeed: React.FC<PostFeedProps> = ({ username }) => {
+  const { posts, loadPosts, loadPostsByUser } = usePost()
 
   useEffect(() => {
     if (username) {
-      loadPostsByUser(username);
-      return;
+      loadPostsByUser(username)
+      return
     }
     if (!username) {
-      loadPosts();
-      return;
+      loadPosts()
+      return
     }
-  }, [loadPosts, loadPostsByUser, username]);
+  }, [loadPosts, loadPostsByUser, username])
 
   return (
     <>
       {posts.posts.map((post) => (
-        <PostItem post={post} key={post.id}/>
+        <PostItem post={post} key={post.id} />
       ))}
     </>
-  );
-};
+  )
+}
 
-export default PostFeed;
+export default PostFeed

@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { loginThunk } from './loginThunk'
+import { loginThunk } from './postThunk'
 
 interface UserState {
   isOpen: boolean

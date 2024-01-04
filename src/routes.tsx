@@ -1,7 +1,7 @@
-import { Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import Profile from "./pages/Profile";
-import PostDetails from "./pages/PostDetails";
+import { Routes, Route } from 'react-router-dom'
+import Home from './pages/Home'
+import Profile from './pages/Profile'
+import PostDetails from './pages/PostDetails'
 
 const Rotas = () => (
   <Routes>

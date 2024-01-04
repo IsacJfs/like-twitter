@@ -50,9 +50,12 @@ const ImageUpload: React.FC<DropzoneProps> = ({
   })
 
   return (
-    <div {...getRootProps({
-      className: 'w-full p-4 text-white text-center border-2 border-dotted rounded-md border-neutral-700'
-    })}>
+    <div
+      {...getRootProps({
+        className:
+          'w-full p-4 text-white text-center border-2 border-dotted rounded-md border-neutral-700'
+      })}
+    >
       <input {...getInputProps()} />
       {base64 ? (
         <div className="flex items-center justify-center">
@@ -66,4 +69,3 @@ const ImageUpload: React.FC<DropzoneProps> = ({
 }
 
 export default ImageUpload
-

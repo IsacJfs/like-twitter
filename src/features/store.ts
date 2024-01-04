@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit'
 import loginModalReducer from './auth/loginModalSlice'
-import registerModalReducer from './users/registerSlice'
+import registerModalReducer from './register/registerSlice'
 import userReducer from './users/userSlice'
 import profileReducer from './profile/profileSlice'
 import editReducer from './profile/editModalSlice'
 import postReducer from './posts/postSlice'
-import curtirReducer from './posts/likePost'
+import curtirReducer from './posts/likePostSlice'
 import loginReducer from './auth/loginSlice'
 
 export const store = configureStore({

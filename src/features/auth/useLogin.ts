@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { onClose, onOpen } from './loginSlice'
 import { AppDispatch, RootState } from '../store'
-import { loginThunk } from './loginThunk'
+import { loginThunk } from './postThunk'
 
 export const useUser = () => {
   const dispatch = useDispatch<AppDispatch>()
