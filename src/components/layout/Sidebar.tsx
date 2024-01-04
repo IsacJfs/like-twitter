@@ -5,39 +5,38 @@ import SidebarLogo from './SidebarLogo'
 import SidebarItem from './SidebarItem'
 import SidebarTweetButton from './SidebarTweetButton'
 import { useNavigate } from 'react-router'
-import { useLoginModal } from '@/features/hooks/useLoginModal'
+import { useLoginModal } from '@/features/auth/useLoginModal'
 
 const Sidebar = () => {
   const navigate = useNavigate()
   const { onOpen } = useLoginModal()
 
   const handleLogout = async () => {
-    console.log('Fazendo logout...');
-    console.log(sessionStorage.getItem('auth_token'));
+    console.log('Fazendo logout...')
+    console.log(sessionStorage.getItem('auth_token'))
     try {
       const response = await fetch('http://127.0.0.1:8000/auth/token/logout/', {
         method: 'POST',
         headers: {
-          'Authorization': `Token ${sessionStorage.getItem('auth_token')}`,
+          Authorization: `Token ${sessionStorage.getItem('auth_token')}`,
           'Content-Type': 'application/json'
         }
-      });
+      })
       if (!response.ok) {
-        throw new Error('Falha ao fazer logout');
+        throw new Error('Falha ao fazer logout')
       }
-      navigate('/'); // Redirecione para a página de login ou outra página
-      window.location.reload();
-      console.log('Logout bem-sucedido');
+      navigate('/') // Redirecione para a página de login ou outra página
+      window.location.reload()
+      console.log('Logout bem-sucedido')
     } catch (error) {
-      console.error('Erro no logout:', error);
+      console.error('Erro no logout:', error)
     } finally {
+      sessionStorage.removeItem('auth_token')
 
-      sessionStorage.removeItem('auth_token');
- 
-      localStorage.removeItem('user');
-      onOpen();
+      localStorage.removeItem('user')
+      onOpen()
     }
-  };
+  }
 
   const items = [
     {
@@ -70,7 +69,7 @@ const Sidebar = () => {
               icon={item.icon}
             />
           ))}
-          <SidebarItem icon={BiLogOut} label="Logout" onClick={handleLogout}/>
+          <SidebarItem icon={BiLogOut} label="Logout" onClick={handleLogout} />
           <SidebarTweetButton />
         </div>
       </div>

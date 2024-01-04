@@ -10,7 +10,7 @@
     "baseUrl": ".", // Required for path mapping
     "paths": {
       "@/*": ["src/*"]
-    },  // Path mapping
+    }, // Path mapping
 
     /* Bundler mode */
     "moduleResolution": "bundler",

@@ -1,16 +1,17 @@
-import { useLoginModal } from '@/features/hooks/useLoginModal';
-import { useCallback } from 'react';
-import { FaFeather } from 'react-icons/fa';
+import { useLoginModal } from '@/features/auth/useLoginModal'
+import { useCallback } from 'react'
+import { FaFeather } from 'react-icons/fa'
 
 const SidebarTweetButton = () => {
-  const loginModal = useLoginModal();
+  const loginModal = useLoginModal()
   const onClick = useCallback(() => {
-    loginModal.onOpen();
-  }, [loginModal]);
+    loginModal.onOpen()
+  }, [loginModal])
 
   return (
     <div onClick={onClick}>
-      <div className="
+      <div
+        className="
         mt-6
         lg:hidden
         rounded-full
@@ -24,10 +25,12 @@ const SidebarTweetButton = () => {
         hover:bg-opacity-80
         transition
         cursor-pointer
-      ">
+      "
+      >
         <FaFeather size={20} color="white" />
       </div>
-      <div className='
+      <div
+        className="
         mt-6
         hidden
         lg:block
@@ -37,20 +40,23 @@ const SidebarTweetButton = () => {
         bg-sky-500
         hover:bg-opacity-90
         transition
-      '>
-        <p className='
+      "
+      >
+        <p
+          className="
           hidden
           lg:block
           text-white
           text-center
           font-semibold
           text-[20px]
-        '>
+        "
+        >
           Tweet
         </p>
       </div>
     </div>
-  );
+  )
 }
 
-export default SidebarTweetButton;
+export default SidebarTweetButton

@@ -2,15 +2,15 @@ import { useCallback, useEffect, useState } from 'react'
 import Avatar from './Avatar'
 import Button from './Button'
 import Input from './Input'
-import { useUser } from '@/features/hooks/useUser'
+import { useUser } from '@/features/users/useUser'
 import PostFeed from './posts/PostFeed'
-import { useProfile } from '@/features/hooks/useProfile'
+import { useProfile } from '@/features/profile/useProfile'
 
 const Post = () => {
   const [posts, setPosts] = useState('')
   const { profile, loadProfile } = useProfile()
 
-  const user = useUser();
+  const user = useUser()
 
   useEffect(() => {
     if (!user.user.username) {
@@ -70,7 +70,7 @@ const Post = () => {
           </div>
         </div>
       </section>
-      <PostFeed/>
+      <PostFeed />
     </div>
   )
 }

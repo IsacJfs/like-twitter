@@ -1,8 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   isOpen: false
-};
+}
 
 const loginModalSlice = createSlice({
   name: 'loginModal',
@@ -10,14 +10,14 @@ const loginModalSlice = createSlice({
   reducers: {
     // Ações para abrir e fechar o modal. O state é o estado atual do slice.
     onOpen: (state) => {
-      state.isOpen = true;
+      state.isOpen = true
     },
     onClose: (state) => {
-      state.isOpen = false;
+      state.isOpen = false
     }
   }
-});
+})
 
-export const { onOpen, onClose } = loginModalSlice.actions;
+export const { onOpen, onClose } = loginModalSlice.actions
 
-export default loginModalSlice.reducer;
+export default loginModalSlice.reducer

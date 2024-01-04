@@ -18,7 +18,7 @@ function App() {
           onSubmit={App}
         />
         <Layout>
-            <Rotas />
+          <Rotas />
         </Layout>
         <LoginModal />
         <RegisterModal />

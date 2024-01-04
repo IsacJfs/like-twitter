@@ -1,52 +1,58 @@
-import { useCallback, useMemo } from 'react';
-import { AiOutlineMessage } from 'react-icons/ai';
-import { formatDistanceToNowStrict, parseISO } from 'date-fns';
+import { useCallback, useMemo } from 'react'
+import { AiOutlineMessage } from 'react-icons/ai'
+import { formatDistanceToNowStrict, parseISO } from 'date-fns'
 
-import { useLoginModal } from '@/features/hooks/useLoginModal';
-import { useProfile } from '@/features/hooks/useProfile';
-import { useLike } from '@/features/hooks/useLike';
+import { useUser } from '@/features/auth/useLogin'
+import { useProfile } from '@/features/profile/useProfile'
+import { useLike } from '@/features/posts/useLike'
 
-import Avatar from '../Avatar';
-import { useNavigate } from 'react-router';
-import { PostState } from '@/features/slicers/postSlice';
-import { BiHeart } from 'react-icons/bi';
+import Avatar from '../Avatar'
+import { useNavigate } from 'react-router'
+import { PostState } from '@/features/posts/postSlice'
+import { BiHeart } from 'react-icons/bi'
 
 interface PostItemProps {
-  post: PostState;
+  post: PostState
 }
 
 const PostItem: React.FC<PostItemProps> = ({ post }) => {
-  const navigate = useNavigate();
-  const loginModal = useLoginModal();
+  const navigate = useNavigate()
+  const { onOpen } = useUser()
 
-  const { profile: currentUser} = useProfile();
+  const { profile: currentUser } = useProfile()
   const { handleCurtir } = useLike()
-  const token = sessionStorage.getItem('auth_token');
+  const token = sessionStorage.getItem('auth_token')
 
-  const goToUser = useCallback((ev: { stopPropagation: () => void; }) => {
-    ev.stopPropagation();
-    navigate(`/users/${post.autor_username}`)
-  }, [navigate, post.autor_username]);
+  const goToUser = useCallback(
+    (ev: { stopPropagation: () => void }) => {
+      ev.stopPropagation()
+      navigate(`/users/${post.autor_username}`)
+    },
+    [navigate, post.autor_username]
+  )
 
   const goToPost = useCallback(() => {
-    navigate(`/postagens/${post.id}`);
-  }, [navigate, post.id]);
+    navigate(`/postagens/${post.id}`)
+  }, [navigate, post.id])
 
-  const onLike = useCallback(async (ev: { stopPropagation: () => void; }) => {
-    ev.stopPropagation();
+  const onLike = useCallback(
+    async (ev: { stopPropagation: () => void }) => {
+      ev.stopPropagation()
 
-    if (!currentUser) {
-      return loginModal.onOpen();
-    }
-    handleCurtir(String(post.id), token as string);
-  }, [currentUser, handleCurtir, post.id, token, loginModal]);
+      if (!currentUser) {
+        return onOpen()
+      }
+      handleCurtir(String(post.id), token || '')
+    },
+    [currentUser, handleCurtir, post.id, token, onOpen]
+  )
 
   const createdAt = useMemo(() => {
     if (!post.data_criacao) {
-      return null;
+      return null
     }
-    const data_criacao = parseISO(post.data_criacao);
-    return formatDistanceToNowStrict(data_criacao);
+    const data_criacao = parseISO(post.data_criacao)
+    return formatDistanceToNowStrict(data_criacao)
   }, [post.data_criacao])
 
   return (
@@ -59,9 +65,10 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
         cursor-pointer
         hover:bg-neutral-900
         transition
-      ">
+      "
+    >
       <div className="flex flex-row items-start gap-3">
-        <Avatar userId={String(post.id)} hasBorder/>
+        <Avatar userId={String(post.id)} hasBorder />
         <div>
           <div className="flex flex-row items-center gap-2">
             <p
@@ -71,7 +78,8 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
                 font-semibold
                 cursor-pointer
                 hover:underline
-            ">
+            "
+            >
               {post.autor_name}
             </p>
             <span
@@ -82,16 +90,13 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
                 hover:underline
                 hidden
                 md:block
-            ">
+            "
+            >
               @{post.autor_username}
             </span>
-            <span className="text-neutral-500 text-sm">
-              {createdAt}
-            </span>
+            <span className="text-neutral-500 text-sm">{createdAt}</span>
           </div>
-          <div className="text-white mt-1">
-            {post.conteudo}
-          </div>
+          <div className="text-white mt-1">{post.conteudo}</div>
           <div className="flex flex-row items-center mt-3 gap-10">
             <div
               className="
@@ -103,11 +108,10 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
                 cursor-pointer
                 transition
                 hover:text-sky-500
-            ">
+            "
+            >
               <AiOutlineMessage size={20} />
-              <p>
-                {post.comentarios.length}
-              </p>
+              <p>{post.comentarios.length}</p>
             </div>
             <div
               onClick={onLike}
@@ -120,11 +124,10 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
                 cursor-pointer
                 transition
                 hover:text-red-500
-            ">
+            "
+            >
               <BiHeart size={20} />
-              <p>
-                {post.curtidas_count}
-              </p>
+              <p>{post.curtidas_count}</p>
             </div>
           </div>
         </div>
@@ -133,4 +136,4 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
   )
 }
 
-export default PostItem;
+export default PostItem

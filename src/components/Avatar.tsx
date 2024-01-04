@@ -1,9 +1,8 @@
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-
-import { useProfile } from '@/features/hooks/useProfile'
-import { useUser } from '@/features/hooks/useUser'
+import { useProfile } from '@/features/profile/useProfile'
+import { useUser } from '@/features/users/useUser'
 
 interface AvatarProps {
   userId: string
@@ -12,7 +11,6 @@ interface AvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = ({ isLarge, hasBorder }) => {
-
   const navigate = useNavigate()
 
   const { user } = useUser()
@@ -25,7 +23,7 @@ const Avatar: React.FC<AvatarProps> = ({ isLarge, hasBorder }) => {
       const url = `/api/users/${user.username}`
       navigate(url)
     },
-    [ user, navigate]
+    [user, navigate]
   )
 
   return (
@@ -45,7 +43,7 @@ const Avatar: React.FC<AvatarProps> = ({ isLarge, hasBorder }) => {
         style={{
           objectFit: 'cover',
           borderRadius: '100%',
-          height: '100%',
+          height: '100%'
         }}
         alt="Avatar"
         onClick={onClick}
