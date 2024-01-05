@@ -8,7 +8,7 @@ import { useLike } from '@/features/posts/useLike'
 
 import Avatar from '../Avatar'
 import { useNavigate } from 'react-router'
-import { PostState } from '@/features/posts/postSlice'
+import { PostState } from '@/features/posts/types'
 import { BiHeart } from 'react-icons/bi'
 
 interface PostItemProps {
