@@ -1,7 +1,8 @@
 import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
+import { BaseUrl } from '@/utils/BaseUrl'
 
-const postsUrl = 'http://127.0.0.1:8000/api/postagens/'
+const postsUrl = `${BaseUrl}/api/postagens/`
 
 // Thunk para o carregamento de todas as postagens
 export const fetchPosts = createAsyncThunk(

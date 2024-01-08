@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { AiOutlineMessage } from 'react-icons/ai'
 import { formatDistanceToNowStrict, parseISO } from 'date-fns'
 
@@ -7,7 +8,6 @@ import { useProfile } from '@/features/profile/useProfile'
 import { useLike } from '@/features/posts/useLike'
 
 import Avatar from '../Avatar'
-import { useNavigate } from 'react-router'
 import { PostState } from '@/features/posts/types'
 import { BiHeart } from 'react-icons/bi'
 
