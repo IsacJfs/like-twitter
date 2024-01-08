@@ -22,7 +22,7 @@ export const editProfileThunk = createAsyncThunk<EditProfileResponse, EditProfil
   'profile/editProfile',
   async (EditProfileParams, { rejectWithValue }) => {
     try {
-      const response = await axios.patch<EditProfileResponse>(`${BaseUrl}/api/profile/`, EditProfileParams, {
+      const response = await axios.patch<EditProfileResponse>(`${BaseUrl()}/api/profile/`, EditProfileParams, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${sessionStorage.getItem('auth_token')}`

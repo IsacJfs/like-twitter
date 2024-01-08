@@ -16,7 +16,7 @@ const Sidebar = () => {
     console.log('Fazendo logout...')
     console.log(sessionStorage.getItem('auth_token'))
     try {
-      const response = await fetch(`${BaseUrl}/auth/logout/`, {
+      const response = await fetch(`${BaseUrl()}/auth/logout/`, {
         method: 'POST',
         headers: {
           Authorization: `Token ${sessionStorage.getItem('auth_token')}`,

@@ -21,6 +21,9 @@ const Post = () => {
     }
     loadProfile(user.user.username)
   }, [loadProfile, user.user.username])
+  console.log(user)
+  console.log('profile')
+  console.log(profile.user.id)
 
   const onSubmit = useCallback(async () => {
     try {

@@ -20,7 +20,7 @@ export const loginThunk = createAsyncThunk<
 >('user/login', async ({ username, password }, { rejectWithValue }) => {
   try {
     const response = await axios.post<LoginResponse>(
-      `${BaseUrl}/auth/token/login/`,
+      `${BaseUrl()}/auth/token/login/`,
       {
         username,
         password

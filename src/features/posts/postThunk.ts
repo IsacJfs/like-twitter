@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { NewPost } from './types'
 import { BaseUrl } from '@/utils/BaseUrl'
 
-const postsUrl = `${BaseUrl}/api/postagens`
+const postsUrl = `${BaseUrl()}/api/postagens`
 
 // Thunk para a criação de uma postagem
 export const fentchAddPost = createAsyncThunk(

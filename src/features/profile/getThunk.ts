@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { BaseUrl } from '@/utils/BaseUrl'
 
-const profileUrl = `${BaseUrl}/api/profile`
+const profileUrl = `${BaseUrl()}/api/profile`
 
 export const fetchProfile = createAsyncThunk(
   'profile/fetchProfile',

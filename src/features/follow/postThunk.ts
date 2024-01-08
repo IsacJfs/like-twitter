@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { BaseUrl } from '@/utils/BaseUrl'
 
-const API_BASE_URL = `${BaseUrl}/api/profile`
+const API_BASE_URL = `${BaseUrl()}/api/profile`
 
 export const addFollower = createAsyncThunk(
   'followers/addFollower',

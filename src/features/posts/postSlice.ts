@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { fetchPosts, fentchPost, fetchPostsByUser } from './getThunk'
 import { PostsState, PostState } from './types'
 
-
 const initialState: PostsState = {
   posts: [],
   isLoading: false,
