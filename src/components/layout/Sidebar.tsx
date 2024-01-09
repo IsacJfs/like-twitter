@@ -1,11 +1,12 @@
+import { useNavigate } from 'react-router-dom'
 import { BsBell, BsPerson } from 'react-icons/bs'
 import { GoHomeFill } from 'react-icons/go'
 import { BiLogOut } from 'react-icons/bi'
 import SidebarLogo from './SidebarLogo'
 import SidebarItem from './SidebarItem'
 import SidebarTweetButton from './SidebarTweetButton'
-import { useNavigate } from 'react-router'
 import { useLoginModal } from '@/features/auth/useLoginModal'
+import { BaseUrl } from '@/utils/BaseUrl'
 
 const Sidebar = () => {
   const navigate = useNavigate()
@@ -15,7 +16,7 @@ const Sidebar = () => {
     console.log('Fazendo logout...')
     console.log(sessionStorage.getItem('auth_token'))
     try {
-      const response = await fetch('http://127.0.0.1:8000/auth/token/logout/', {
+      const response = await fetch(`${BaseUrl()}/auth/logout/`, {
         method: 'POST',
         headers: {
           Authorization: `Token ${sessionStorage.getItem('auth_token')}`,

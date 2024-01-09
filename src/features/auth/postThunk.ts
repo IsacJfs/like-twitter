@@ -1,6 +1,6 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
-
+import { createAsyncThunk } from '@reduxjs/toolkit'
+import { BaseUrl } from '@/utils/BaseUrl'
 // Definindo os tipos para os parâmetros da função de login
 interface LoginParams {
   username: string
@@ -20,7 +20,7 @@ export const loginThunk = createAsyncThunk<
 >('user/login', async ({ username, password }, { rejectWithValue }) => {
   try {
     const response = await axios.post<LoginResponse>(
-      'http://127.0.0.1:8000/auth/token/login/',
+      `${BaseUrl()}/auth/token/login/`,
       {
         username,
         password

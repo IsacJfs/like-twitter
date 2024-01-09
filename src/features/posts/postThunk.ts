@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { NewPost } from './types'
+import { BaseUrl } from '@/utils/BaseUrl'
 
-const postsUrl = 'http://127.0.0.1:8000/api/postagens'
+const postsUrl = `${BaseUrl()}/api/postagens`
 
 // Thunk para a criação de uma postagem
 export const fentchAddPost = createAsyncThunk(

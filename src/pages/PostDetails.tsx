@@ -1,7 +1,7 @@
+import { useParams } from 'react-router-dom'
 import PostItem from '@/components/posts/PostItem'
 import { usePost } from '@/features/posts/usePost'
 import { useEffect } from 'react'
-import { useParams } from 'react-router'
 
 const PostDetails = () => {
   const param = useParams()

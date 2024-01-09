@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { BaseUrl } from '@/utils/BaseUrl';
 
 export interface EditProfileParams {
   name: string
@@ -21,7 +22,7 @@ export const editProfileThunk = createAsyncThunk<EditProfileResponse, EditProfil
   'profile/editProfile',
   async (EditProfileParams, { rejectWithValue }) => {
     try {
-      const response = await axios.patch<EditProfileResponse>('http://127.0.0.1:8000/api/profile/', EditProfileParams, {
+      const response = await axios.patch<EditProfileResponse>(`${BaseUrl()}/api/profile/`, EditProfileParams, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Token ${sessionStorage.getItem('auth_token')}`
