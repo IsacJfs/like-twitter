@@ -36,6 +36,7 @@ const Post = () => {
       setPosts('') // limpar o campo
     } catch (error) {
       console.error('Erro ao fazer post:', error)
+      alert('Erro ao fazer post')
     }
   }, [addNewPost, posts, profile.user.id])
 

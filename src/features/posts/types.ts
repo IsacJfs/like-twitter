@@ -5,6 +5,7 @@ export interface NewPost {
   conteudo: string
   isLoading: boolean
   error: string | null
+  isOpen: boolean
 }
 
 export interface PostState {

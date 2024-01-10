@@ -6,13 +6,21 @@ const initialState: NewPost = {
   autor: '',
   conteudo: '',
   isLoading: false,
-  error: null
+  error: null,
+  isOpen: false
 }
 
 const addPostSlice = createSlice({
   name: 'addPosts',
   initialState,
-  reducers: {},
+  reducers: {
+    onOpen: (state) => {
+      state.isOpen = true
+    },
+    onClose: (state) => {
+      state.isOpen = false
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fentchAddPost.pending, (state) => {
@@ -31,4 +39,5 @@ const addPostSlice = createSlice({
   }
 })
 
+export const { onOpen, onClose } = addPostSlice.actions
 export default addPostSlice.reducer
