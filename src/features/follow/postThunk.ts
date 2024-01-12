@@ -4,13 +4,13 @@ import { BaseUrl } from '@/utils/BaseUrl'
 
 const API_BASE_URL = `${BaseUrl()}/api/profile`
 
-export const addFollower = createAsyncThunk(
+export const handleFollower = createAsyncThunk(
   'followers/addFollower',
-  async ({ username, followwerUsername, token } : { username: string, followwerUsername: string, token: string }, { rejectWithValue }) => {
+  async ({ username, followwerUsername, token, action } : { username: string, followwerUsername: string, token: string, action: string }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/${username}/follow/`,
-        {follower_username: followwerUsername},
+        `${API_BASE_URL}/${username}/is-following/`,
+        {follower_username: followwerUsername, action: action},
         {
           headers: {
             Authorization: `Token ${token}`
