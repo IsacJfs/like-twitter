@@ -20,7 +20,7 @@ const PostFeed: React.FC<PostFeedProps> = ({ username }) => {
       return
     }
   }, [loadPosts, loadPostsByUser, username])
-  console.log(posts)
+
   return (
     <>
       {posts.posts.map((post) => (

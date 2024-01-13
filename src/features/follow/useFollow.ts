@@ -7,11 +7,12 @@ export const useFollow = () => {
   const dispatch = useDispatch<AppDispatch>()
 
   const addFollowerToUser = (username: string, followwerUsername: string, token: string) => {
-    dispatch(handleFollower({ username, followwerUsername, token, action: 'follow' }))
+    console.log(username, followwerUsername, token)
+    return dispatch(handleFollower({ username, followwerUsername, token, action: 'follow' }))
   }
 
   const removeFollowerToUser = (username: string, followwerUsername: string, token: string) => {
-    dispatch(handleFollower({ username, followwerUsername, token, action: 'unfollow' }))
+    return dispatch(handleFollower({ username, followwerUsername, token, action: 'unfollow' }))
   }
 
   return {

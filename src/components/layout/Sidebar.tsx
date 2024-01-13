@@ -13,8 +13,6 @@ const Sidebar = () => {
   const { onOpen } = useLoginModal()
 
   const handleLogout = async () => {
-    console.log('Fazendo logout...')
-    console.log(sessionStorage.getItem('auth_token'))
     try {
       const response = await fetch(`${BaseUrl()}/auth/logout/`, {
         method: 'POST',

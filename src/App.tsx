@@ -7,11 +7,13 @@ import LoginModal from './components/modals/LoginModal'
 import RegisterModal from './components/modals/RegisterModal'
 import Rotas from './routes'
 import PostModal from './components/modals/PostModal'
+import { Toaster } from 'react-hot-toast'
 
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
+        <Toaster />
         <Modal
           actionLabel="Submit"
           title="Teste"

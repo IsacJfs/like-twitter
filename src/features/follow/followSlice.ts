@@ -21,10 +21,12 @@ const profileSlice = createSlice({
     builder.addCase(handleFollower.pending, (state) => {
       state.isLoading = true
       state.followSuccess = false
+      state.error = null
     })
-    builder.addCase(handleFollower.fulfilled, (state) => {
+    builder.addCase(handleFollower.fulfilled, (state, action) => {
       state.isLoading = false
-      state.followSuccess = true
+      state.followSuccess = action.payload(true)
+      state.error = null
     })
     builder.addCase(handleFollower.rejected, (state, action) => {
       state.isLoading = false

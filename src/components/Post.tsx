@@ -7,6 +7,7 @@ import PostFeed from './posts/PostFeed'
 import { useProfile } from '@/features/profile/useProfile'
 import { NewPost } from '@/features/posts/types'
 import { useAddPost } from '@/features/posts/useAddPost'
+import toast from 'react-hot-toast'
 
 const Post = () => {
   const [posts, setPosts] = useState('')
@@ -21,22 +22,18 @@ const Post = () => {
     }
     loadProfile(user.user.username)
   }, [loadProfile, user.user.username])
-  console.log(user)
-  console.log('profile')
-  console.log(profile.user.id)
+
 
   const onSubmit = useCallback(async () => {
     try {
       if (!profile.user.id) {
         throw new Error('Usuário não logado')
       }
-      console.log(profile.user.id)
-      console.log(posts)
       addNewPost({ autor: profile.user.id, conteudo: posts } as NewPost),
+      toast.success('Post criado com sucesso!')
       setPosts('') // limpar o campo
     } catch (error) {
-      console.error('Erro ao fazer post:', error)
-      alert('Erro ao fazer post')
+      toast.error('Erro ao fazer post:'+ error)
     }
   }, [addNewPost, posts, profile.user.id])
 

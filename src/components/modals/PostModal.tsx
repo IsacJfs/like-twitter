@@ -3,6 +3,7 @@ import { useAddPost } from "@/features/posts/useAddPost";
 import Modal from "../Modal";
 import Input from "../Input";
 import { NewPost } from "@/features/posts/types";
+import toast from "react-hot-toast";
 
 const PostModal = () => {
   const { addNewPost, postModalClose, isOpen } = useAddPost()
@@ -10,8 +11,13 @@ const PostModal = () => {
   const autor = localStorage.getItem('user')
 
   const onSubmit = () => {
-    addNewPost({autor: autor, conteudo: post} as NewPost)
-    postModalClose()
+    try {
+      addNewPost({autor: autor, conteudo: post} as NewPost)
+      toast.success('Post criado com sucesso!')
+      postModalClose()
+    } catch (e) {
+      toast.error('Erro na submissão:' + e)
+    }
   }
 
   const bodyContent = (

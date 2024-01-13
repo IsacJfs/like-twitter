@@ -4,6 +4,7 @@ import { useLoginModal } from '@/features/auth/useLoginModal'
 import Input from '../Input'
 import Modal from '../Modal'
 import { RegisterData } from '@/features/register/types'
+import toast from 'react-hot-toast'
 
 const RegisterModal = () => {
   const {register, onClose, isLoading, isOpen } = useRegisterModal()
@@ -16,12 +17,9 @@ const RegisterModal = () => {
   const [lastName, setLastName] = useState('')
 
   const onToggle = useCallback(() => {
-    if (isLoading) {
-      return
-    }
     onClose()
     loginModal.onOpen()
-  }, [isLoading, onClose, loginModal])
+  }, [onClose, loginModal])
 
   const onSubmit = useCallback(async () => {
     const userData: RegisterData = {
@@ -38,9 +36,11 @@ const RegisterModal = () => {
       }
       register(userData)
 
+      toast.success('Conta criada com sucesso!')
+
       onClose()
     } catch (e) {
-      console.log(e)
+      toast.error('Erro na submissão:' + e)
     } finally {
       isLoading
     }

@@ -10,8 +10,6 @@ export const fetchPosts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(postsUrl)
-      console.log(response)
-      console.log(postsUrl)
       return response.data
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -78,7 +76,6 @@ export const curtirPostagem = createAsyncThunk(
         }
       }
     )
-    console.log(response.data)
     return response.data
   }
 )

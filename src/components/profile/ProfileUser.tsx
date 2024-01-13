@@ -1,10 +1,12 @@
-import { useEffect, useMemo } from 'react'
+import { useCallback, useEffect, useMemo } from 'react'
 import { BiCalendar } from 'react-icons/bi'
 import { format } from 'date-fns'
 
 import { useProfile } from '@/features/profile/useProfile'
 import Button from '../Button'
 import { useFollow } from '@/features/follow/useFollow'
+import toast from 'react-hot-toast'
+import { handleFollower } from '@/features/follow/postThunk'
 interface ProfileUserProps {
   userId: string
 }
@@ -25,22 +27,32 @@ const ProfileUser: React.FC<ProfileUserProps> = ({ userId }) => {
     return format(new Date(profile.user.date_joined), 'MMMM yyyy')
   }, [profile.user.date_joined])
 
-  const onClick = () => {
-    const user = localStorage.getItem('user')
-    const followerUsername = profile.user.username
-    const token = sessionStorage.getItem('auth_token')
-    console.log(user)
-    console.log(token)
-    if (user == profile.user.username) {
-      throw new Error('Cannot follow yourself')
-    }
+  const user = localStorage.getItem('user')
+  const followerUsername = profile.user.username
+  const token = sessionStorage.getItem('auth_token')
 
-    if (!user || !token || !followerUsername) {
-      throw new Error('User not logged in')
-    }
+  const onClick = useCallback(async () => {
+    try {
+      if (user === profile.user.username) {
+        toast.error('Você não pode seguir a si mesmo')
+        throw new Error('Você não pode seguir a si mesmo')
+      }
 
-    addFollowerToUser(user, followerUsername, token)
-  }
+      if (!user || !token || !followerUsername) {
+        toast.error('Usuário não logado!')
+        throw new Error('Usuário não logado!')
+      }
+
+      const actionResult = await addFollowerToUser(user, followerUsername, token)
+      if (handleFollower.fulfilled.match(actionResult)) {
+        toast.success('Usuário seguido com sucesso!')
+      } else {
+        throw new Error('Error following user:' + actionResult.payload)
+      }
+    } catch (error) {
+        toast.error('Erro inesperado:' + error)
+      }
+  }, [addFollowerToUser, followerUsername, profile.user.username, token, user])
 
   return (
     <div className="border-b-[1px] border-neutral-800 pb-4">

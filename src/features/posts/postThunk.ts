@@ -39,7 +39,6 @@ export const curtirPostagem = createAsyncThunk(
         }
       }
     )
-    console.log(response.data)
     return response.data
   }
 )

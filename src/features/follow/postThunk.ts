@@ -8,6 +8,8 @@ export const handleFollower = createAsyncThunk(
   'followers/addFollower',
   async ({ username, followwerUsername, token, action } : { username: string, followwerUsername: string, token: string, action: string }, { rejectWithValue }) => {
     try {
+      console.log("tentando adicionar seguidor")
+      console.log(`Token ${token}`)
       const response = await axios.post(
         `${API_BASE_URL}/${username}/is-following/`,
         {follower_username: followwerUsername, action: action},
@@ -20,7 +22,8 @@ export const handleFollower = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
-        return rejectWithValue(error.response?.data?.message || 'Erro ao adicionar seguidor.');
+        console.log(error)
+        return rejectWithValue(error.response?.data?.detail || 'Erro ao adicionar seguidor.');
       }
       return rejectWithValue('Erro desconhecido ao adicionar seguidor.');
     }
