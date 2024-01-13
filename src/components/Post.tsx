@@ -2,7 +2,6 @@ import { useCallback, useEffect, useState } from 'react'
 import Avatar from './Avatar'
 import Button from './Button'
 import Input from './Input'
-import { useUser } from '@/features/users/useUser'
 import PostFeed from './posts/PostFeed'
 import { useProfile } from '@/features/profile/useProfile'
 import { NewPost } from '@/features/posts/types'
@@ -14,14 +13,14 @@ const Post = () => {
   const { profile, loadProfile } = useProfile()
   const { addNewPost } = useAddPost()
 
-  const user = useUser()
+  const user = localStorage.getItem('user')
 
   useEffect(() => {
-    if (!user.user.username) {
+    if (!user) {
       return
     }
-    loadProfile(user.user.username)
-  }, [loadProfile, user.user.username])
+    loadProfile(user)
+  }, [loadProfile, user])
 
 
   const onSubmit = useCallback(async () => {
@@ -55,7 +54,7 @@ const Post = () => {
           </div>
         </div>
       </section>
-      <PostFeed />
+      <PostFeed profile={profile} home={true}/>
     </div>
   )
 }

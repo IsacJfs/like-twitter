@@ -26,7 +26,6 @@ const Sidebar = () => {
       }
       navigate('/') // Redirecione para a página de login ou outra página
       window.location.reload()
-      console.log('Logout bem-sucedido')
     } catch (error) {
       console.error('Erro no logout:', error)
     } finally {

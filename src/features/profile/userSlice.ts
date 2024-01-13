@@ -12,7 +12,6 @@ export interface UserState {
 }
 
 export interface ProfileState {
-  id: number
   user: UserState
   description: string | null
   birthday: string | null
@@ -26,7 +25,6 @@ export interface ProfileState {
 }
 
 const initialState: ProfileState = {
-  id: 0,
   user: {
     id: '',
     username: null,
@@ -46,8 +44,8 @@ const initialState: ProfileState = {
   username: null
 }
 
-export const profileSlice = createSlice({
-  name: 'profile',
+export const localUserSlice = createSlice({
+  name: 'localUser',
   initialState,
   reducers: {
     setProfile: (state, action: PayloadAction<ProfileState>) => {
@@ -83,6 +81,6 @@ export const profileSlice = createSlice({
 
 
 export const { setProfile, updateFollowing, clearProfile } =
-  profileSlice.actions
+  localUserSlice.actions
 
-export default profileSlice.reducer
+export default localUserSlice.reducer

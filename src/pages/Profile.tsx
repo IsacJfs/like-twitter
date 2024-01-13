@@ -13,19 +13,22 @@ import { useEffect } from 'react'
 const Profile = () => {
   const params = useParams()
   const username = params.username as string // aqui ta puxando o username da url
-  const { loadProfile } = useProfile()
+  const { loadProfile, profile } = useProfile()
 
   useEffect(() => {
     if (username === 'me') {
       loadProfile(localStorage.getItem('user')!)
+      console.log('username', username)
+    } else {
+      loadProfile(username)
     }
   }, [loadProfile, username])
 
   return (
     <div>
-      <ProfileHero userId={username} />
-      <ProfileUser userId={username} />
-      <PostFeed username={username} />
+      <ProfileHero userId={profile.id} coverPicture={profile.coverPicture || ''} />
+      <ProfileUser profile={profile}/>
+      <PostFeed profile={profile} />
     </div>
   )
 }

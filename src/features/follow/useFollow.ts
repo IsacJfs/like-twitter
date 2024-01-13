@@ -1,18 +1,17 @@
 import { useDispatch } from 'react-redux'
 import { AppDispatch } from '../store'
 
-import { handleFollower } from './postThunk'
+import { handleFollower, handleUnfollower } from './postThunk'
 
 export const useFollow = () => {
   const dispatch = useDispatch<AppDispatch>()
 
   const addFollowerToUser = (username: string, followwerUsername: string, token: string) => {
-    console.log(username, followwerUsername, token)
-    return dispatch(handleFollower({ username, followwerUsername, token, action: 'follow' }))
+    return dispatch(handleFollower({ username, followwerUsername, token}))
   }
 
   const removeFollowerToUser = (username: string, followwerUsername: string, token: string) => {
-    return dispatch(handleFollower({ username, followwerUsername, token, action: 'unfollow' }))
+    return dispatch(handleUnfollower({ username, followwerUsername, token}))
   }
 
   return {

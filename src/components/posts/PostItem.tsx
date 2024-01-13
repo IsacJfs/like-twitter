@@ -4,22 +4,21 @@ import { AiOutlineMessage } from 'react-icons/ai'
 import { formatDistanceToNowStrict, parseISO } from 'date-fns'
 
 import { useUser } from '@/features/auth/useLogin'
-import { useProfile } from '@/features/profile/useProfile'
 import { useLike } from '@/features/posts/useLike'
 
 import Avatar from '../Avatar'
 import { PostState } from '@/features/posts/types'
 import { BiHeart } from 'react-icons/bi'
+import { ProfileState } from '@/features/profile/profileSlice'
 
 interface PostItemProps {
   post: PostState
+  profile: ProfileState
 }
 
-const PostItem: React.FC<PostItemProps> = ({ post }) => {
+const PostItem: React.FC<PostItemProps> = ({ post, profile }) => {
   const navigate = useNavigate()
   const { onOpen } = useUser()
-
-  const { profile: currentUser } = useProfile()
   const { handleCurtir } = useLike()
   const token = sessionStorage.getItem('auth_token')
 
@@ -39,12 +38,12 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
     async (ev: { stopPropagation: () => void }) => {
       ev.stopPropagation()
 
-      if (!currentUser) {
+      if (!profile) {
         return onOpen()
       }
       handleCurtir(String(post.id), token || '')
     },
-    [currentUser, handleCurtir, post.id, token, onOpen]
+    [profile, handleCurtir, post.id, token, onOpen]
   )
 
   const createdAt = useMemo(() => {
