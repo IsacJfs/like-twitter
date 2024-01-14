@@ -1,30 +1,10 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { setUser } from '../users/userSlice'
-import { fetchProfile } from './getThunk'
-
-export interface UserState {
-  id: string
-  username: string | null
-  email: string | null
-  first_name: string | null
-  last_name: string | null
-  date_joined: string | null
-}
-
-export interface ProfileState {
-  user: UserState
-  description: string | null
-  birthday: string | null
-  profilePicture: string | null
-  coverPicture: string | null
-  following_usernames: string[]
-  followers_count: number
-  isLoading: boolean
-  error: string | null | unknown
-  username: string | null
-}
+import { fetchLocalUser } from './getThunk'
+import { ProfileState } from './types'
 
 const initialState: ProfileState = {
+  id: 0,
   user: {
     id: '',
     username: null,
@@ -37,7 +17,7 @@ const initialState: ProfileState = {
   birthday: null,
   profilePicture: null,
   coverPicture: null,
-  following_usernames: [],
+  following_username: [],
   followers_count: 0,
   isLoading: false,
   error: null,
@@ -52,20 +32,20 @@ export const localUserSlice = createSlice({
       Object.assign(state, action.payload)
     },
     updateFollowing: (state, action: PayloadAction<string[]>) => {
-      state.following_usernames = action.payload
+      state.following_username = action.payload
     },
     clearProfile: () => initialState
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProfile.pending, (state) => {
+      .addCase(fetchLocalUser.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(fetchProfile.fulfilled, (state, action) => {
+      .addCase(fetchLocalUser.fulfilled, (state, action) => {
         Object.assign(state, action.payload)
         state.isLoading = false
       })
-      .addCase(fetchProfile.rejected, (state, action) => {
+      .addCase(fetchLocalUser.rejected, (state, action) => {
         state.error = action.payload as string
         state.isLoading = false
       })

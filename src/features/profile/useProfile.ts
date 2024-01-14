@@ -6,9 +6,9 @@ import {
   setProfile,
   updateFollowing,
   clearProfile,
-  ProfileState
 } from '@/features/profile/profileSlice'
 import { fetchProfile } from './getThunk'
+import { ProfileState } from './types'
 
 export const useProfile = () => {
   const dispatch = useDispatch<AppDispatch>()

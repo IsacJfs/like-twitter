@@ -2,15 +2,15 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from 'axios'
 import { BaseUrl } from '@/utils/BaseUrl'
 
-const API_BASE_URL = `${BaseUrl()}/api/profile`
+const API_BASE_URL = `${BaseUrl()}/api`
 
 export const handleFollower = createAsyncThunk(
   'followers/addFollower',
-  async ({ username, followwerUsername, token } : { username: string, followwerUsername: string, token: string}, { rejectWithValue }) => {
+  async ({ followwerUsername, token } : { followwerUsername: string, token: string}, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/${username}/is-following/`,
-        {follower_username: followwerUsername },
+        `${API_BASE_URL}/follow/`,
+        {username: followwerUsername },
         {
           headers: {
             Authorization: `Token ${token}`
@@ -28,12 +28,12 @@ export const handleFollower = createAsyncThunk(
 );
 
 export const handleUnfollower = createAsyncThunk(
-  'followers/addFollower',
-  async ({ username, followwerUsername, token } : { username: string, followwerUsername: string, token: string}, { rejectWithValue }) => {
+  'followers/removeFollower',
+  async ({ followwerUsername, token } : { followwerUsername: string, token: string}, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        `${API_BASE_URL}/${username}/is-following/`,
-        {follower_username: followwerUsername },
+        `${API_BASE_URL}/unfollow/`,
+        {username: followwerUsername },
         {
           headers: {
             Authorization: `Token ${token}`

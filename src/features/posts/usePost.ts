@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store'
 import { addPost, removePost } from './postSlice'
 import { useCallback } from 'react'
-import { fetchPosts, fentchPost, fetchPostsByUser } from './getThunk'
+import { fetchPostList, fentchPostUser, fetchPostsByUser } from './getThunk'
 import { PostState } from './types'
 
 export const usePost = () => {
@@ -11,12 +11,12 @@ export const usePost = () => {
   const posts = useSelector((state: RootState) => state.post)
 
   const loadPosts = useCallback(() => {
-    dispatch(fetchPosts())
+    dispatch(fetchPostList())
   }, [dispatch])
 
   const loadPost = useCallback(
     (postId: number) => {
-      dispatch(fentchPost(postId))
+      dispatch(fentchPostUser(postId))
     },
     [dispatch]
   )

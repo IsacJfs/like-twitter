@@ -1,41 +1,88 @@
-// import { useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
+import Button from "./Button";
+import { useFollow } from "@/features/follow/useFollow";
+import toast from "react-hot-toast";
+import { useLocalUser } from "@/features/profile/useLocalUser";
+import { handleFollower } from "@/features/follow/postThunk";
 
-// interface FollowButtonProps {
-//   currentUser: string;
-//   targetUser: string;
-// }
+interface FollowButtonProps {
+  targetUser: string;
+}
 
-// const FollowButton = ({ currentUser, targetUser }: FollowButtonProps) => {
-//   const [isFollowing, setIsFollowing] = useState(false);
+const FollowButton = ({ targetUser }: FollowButtonProps) => {
+  const { localUser, loadLocalUser } = useLocalUser()
+  const { addFollowerToUser, removeFollowerToUser } = useFollow()
+  const user = localStorage.getItem('user')
+  const token = sessionStorage.getItem('auth_token')
 
-//   useEffect(() => {
-//     // API call to check if currentUser is following targetUser
-//     checkFollowStatus(currentUser, targetUser).then(status => {
-//       setIsFollowing(status);
-//     });
-//   }, [currentUser, targetUser]);
+  useEffect(() => {
+    if (user) {
+      loadLocalUser(user)
+    }
+  }, [user, loadLocalUser])
 
-//   const handleFollowClick = async () => {
-//     try {
-//       if (isFollowing) {
-//         // API call to unfollow
-//         await unfollowUser(currentUser, targetUser);
-//       } else {
-//         // API call to follow
-//         await followUser(currentUser, targetUser);
-//       }
-//       setIsFollowing(!isFollowing); // Toggle the state
-//     } catch (error) {
-//       // Handle error (e.g., show a message)
-//     }
-//   };
+  const onFollow = useCallback(async () => {
+    try {
+      if (localUser.username === targetUser) {
+        toast.error('Você não pode seguir a si mesmo')
+        throw new Error('Você não pode seguir a si mesmo')
+      }
 
-//   return (
-//     <button onClick={handleFollowClick}>
-//       {isFollowing ? 'Unfollow' : 'Follow'}
-//     </button>
-//   );
-// };
+      if (!token) {
+        toast.error('Usuário não logado!')
+        throw new Error('Usuário não logado!')
+      }
 
-// export default FollowButton
+      const actionResult = await addFollowerToUser(targetUser, token)
+      if (handleFollower.fulfilled.match(actionResult)) {
+        toast.success('Usuário seguido com sucesso!')
+      } else {
+        throw new Error('Error following user:' + actionResult.payload)
+      }
+    } catch (error) {
+        toast.error('Erro inesperado:' + error)
+      }
+  }, [addFollowerToUser, localUser.username, targetUser, token])
+
+  const onUnfollow = useCallback(async () => {
+    try {
+      if (!token) {
+        toast.error('Usuário não logado!')
+        throw new Error('Usuário não logado!')
+      }
+
+      const actionResult = await removeFollowerToUser(targetUser, token)
+      if (handleFollower.fulfilled.match(actionResult)) {
+        toast.success('Usuário seguido com sucesso!')
+      } else {
+        throw new Error('Error following user:' + actionResult.payload)
+      }
+    } catch (error) {
+        toast.error('Erro inesperado:' + error)
+      }
+  }, [targetUser, token, removeFollowerToUser])
+
+  let label = '...'
+  let onClick = () => {}
+  console.log('targetUser', targetUser)
+  console.log('localUser.username', localUser)
+  console.log('localUser.following_username', localUser.following_username)
+
+  if (localUser.username === targetUser) {
+    label = 'Editar'
+    onClick = () => {}
+  } else if (localUser.following_username.includes(targetUser)) {
+    label = 'unFollow'
+    onClick = () => {onUnfollow()}
+  } else {
+    label = 'Follow'
+    onClick = () => {onFollow()}
+  }
+
+  return (
+    <Button label={label} onClick={onClick} />
+  );
+};
+
+export default FollowButton
 

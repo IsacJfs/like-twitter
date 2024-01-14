@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { curtirPostagem } from './getThunk'
+import { fetchLikePost } from './getThunk'
 
 interface CurtirState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed'
@@ -17,13 +17,13 @@ const curtirSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(curtirPostagem.pending, (state) => {
+      .addCase(fetchLikePost.pending, (state) => {
         state.status = 'loading'
       })
-      .addCase(curtirPostagem.fulfilled, (state) => {
+      .addCase(fetchLikePost.fulfilled, (state) => {
         state.status = 'succeeded'
       })
-      .addCase(curtirPostagem.rejected, (state, action) => {
+      .addCase(fetchLikePost.rejected, (state, action) => {
         state.status = 'failed'
         state.error = action.error.message as string
       })

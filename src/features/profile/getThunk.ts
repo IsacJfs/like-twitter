@@ -21,3 +21,21 @@ export const fetchProfile = createAsyncThunk(
     }
   }
 )
+
+export const fetchLocalUser = createAsyncThunk(
+  'localUser/fetchLocalUser',
+  async (userId: string, thunkAPI) => {
+    try {
+      const response = await axios.get(`${profileUrl}/${userId}/`)
+      return response.data
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        // Agora sabemos que 'error' é um AxiosError
+        return thunkAPI.rejectWithValue(
+          error.response?.data?.message || 'An unknown error occurred'
+        )
+      }
+      return thunkAPI.rejectWithValue('An unknown error occurred')
+    }
+  }
+)

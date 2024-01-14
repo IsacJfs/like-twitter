@@ -3,24 +3,24 @@ import { useNavigate } from 'react-router-dom'
 import { AiOutlineMessage } from 'react-icons/ai'
 import { formatDistanceToNowStrict, parseISO } from 'date-fns'
 
-import { useUser } from '@/features/auth/useLogin'
-import { useLike } from '@/features/posts/useLike'
+// import { useUser } from '@/features/auth/useLogin'
+// import { useLike } from '@/features/posts/useLike'
 
 import Avatar from '../Avatar'
 import { PostState } from '@/features/posts/types'
 import { BiHeart } from 'react-icons/bi'
-import { ProfileState } from '@/features/profile/profileSlice'
+import { ProfileState } from '@/features/profile/types'
 
 interface PostItemProps {
   post: PostState
-  profile: ProfileState
+  profile?: ProfileState
 }
 
-const PostItem: React.FC<PostItemProps> = ({ post, profile }) => {
+const PostItem: React.FC<PostItemProps> = ({ post }) => {
   const navigate = useNavigate()
-  const { onOpen } = useUser()
-  const { handleCurtir } = useLike()
-  const token = sessionStorage.getItem('auth_token')
+  // const { onOpen } = useUser()
+  // const { handleCurtir } = useLike()
+  // const token = sessionStorage.getItem('auth_token')
 
   const goToUser = useCallback(
     (ev: { stopPropagation: () => void }) => {
@@ -34,17 +34,19 @@ const PostItem: React.FC<PostItemProps> = ({ post, profile }) => {
     navigate(`/postagens/${post.id}`)
   }, [navigate, post.id])
 
-  const onLike = useCallback(
-    async (ev: { stopPropagation: () => void }) => {
-      ev.stopPropagation()
+  // const onLike = useCallback(
+  //   async (ev: { stopPropagation: () => void }) => {
+  //     ev.stopPropagation()
 
-      if (!profile) {
-        return onOpen()
-      }
-      handleCurtir(String(post.id), token || '')
-    },
-    [profile, handleCurtir, post.id, token, onOpen]
-  )
+  //     if (!profile) {
+  //       return onOpen()
+  //     }
+  //     handleCurtir(String(post.id), token || '')
+  //   },
+  //   [profile, handleCurtir, post.id, token, onOpen]
+  // )
+
+  const onLike = () => {}
 
   const createdAt = useMemo(() => {
     if (!post.data_criacao) {

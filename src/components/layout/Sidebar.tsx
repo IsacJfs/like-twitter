@@ -49,7 +49,7 @@ const Sidebar = () => {
     },
     {
       label: 'Profile',
-      href: '/users/me',
+      href: '/home',
       icon: BsPerson
     }
   ]

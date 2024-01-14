@@ -3,32 +3,27 @@
 // import { useUser } from '@/features/hooks/useUser';
 
 // components
+import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import ProfileHero from '@/components/profile/ProfileHero'
 import ProfileUser from '@/components/profile/ProfileUser'
-import PostFeed from '@/components/posts/PostFeed'
-import { useParams } from 'react-router-dom'
 import { useProfile } from '@/features/profile/useProfile'
-import { useEffect } from 'react'
+import ProfileFeed from '@/components/posts/ProfileFeed'
 
 const Profile = () => {
   const params = useParams()
-  const username = params.username as string // aqui ta puxando o username da url
   const { loadProfile, profile } = useProfile()
 
   useEffect(() => {
-    if (username === 'me') {
-      loadProfile(localStorage.getItem('user')!)
-      console.log('username', username)
-    } else {
-      loadProfile(username)
-    }
-  }, [loadProfile, username])
+    const username = params.username as string // aqui ta puxando o username da url
+    loadProfile(username)
+  }, [loadProfile, params.username])
 
   return (
     <div>
       <ProfileHero userId={profile.id} coverPicture={profile.coverPicture || ''} />
       <ProfileUser profile={profile}/>
-      <PostFeed profile={profile} />
+      <ProfileFeed profile={profile} />
     </div>
   )
 }

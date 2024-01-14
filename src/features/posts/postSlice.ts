@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { fetchPosts, fentchPost, fetchPostsByUser } from './getThunk'
+import { fetchPostList, fentchPostUser, fetchPostsByUser } from './getThunk'
 import { PostsState, PostState } from './types'
 
 const initialState: PostsState = {
@@ -21,15 +21,15 @@ const postsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPosts.pending, (state) => {
+      .addCase(fetchPostList.pending, (state) => {
         state.isLoading = true
         state.error = null
       })
-      .addCase(fetchPosts.fulfilled, (state, action) => {
+      .addCase(fetchPostList.fulfilled, (state, action) => {
         state.isLoading = false
         state.posts = action.payload
       })
-      .addCase(fetchPosts.rejected, (state, action) => {
+      .addCase(fetchPostList.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload as string
       })
@@ -45,15 +45,15 @@ const postsSlice = createSlice({
         state.isLoading = false
         state.error = action.payload as string
       })
-      .addCase(fentchPost.pending, (state) => {
+      .addCase(fentchPostUser.pending, (state) => {
         state.isLoading = true
         state.error = null
       })
-      .addCase(fentchPost.fulfilled, (state, action) => {
+      .addCase(fentchPostUser.fulfilled, (state, action) => {
         state.isLoading = false
         state.posts = action.payload
       })
-      .addCase(fentchPost.rejected, (state, action) => {
+      .addCase(fentchPostUser.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload as string
       })

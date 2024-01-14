@@ -3,14 +3,14 @@ import Avatar from './Avatar'
 import Button from './Button'
 import Input from './Input'
 import PostFeed from './posts/PostFeed'
-import { useProfile } from '@/features/profile/useProfile'
 import { NewPost } from '@/features/posts/types'
 import { useAddPost } from '@/features/posts/useAddPost'
 import toast from 'react-hot-toast'
+import { useLocalUser } from '@/features/profile/useLocalUser'
 
 const Post = () => {
   const [posts, setPosts] = useState('')
-  const { profile, loadProfile } = useProfile()
+  const { localUser, loadLocalUser } = useLocalUser()
   const { addNewPost } = useAddPost()
 
   const user = localStorage.getItem('user')
@@ -19,22 +19,22 @@ const Post = () => {
     if (!user) {
       return
     }
-    loadProfile(user)
-  }, [loadProfile, user])
+    loadLocalUser(user)
+  }, [loadLocalUser, user])
 
 
   const onSubmit = useCallback(async () => {
     try {
-      if (!profile.user.id) {
+      if (!localUser.user.id) {
         throw new Error('Usuário não logado')
       }
-      addNewPost({ autor: profile.user.id, conteudo: posts } as NewPost),
+      addNewPost({ autor: localUser.user.id, conteudo: posts } as NewPost),
       toast.success('Post criado com sucesso!')
       setPosts('') // limpar o campo
     } catch (error) {
       toast.error('Erro ao fazer post:'+ error)
     }
-  }, [addNewPost, posts, profile.user.id])
+  }, [addNewPost, posts, localUser.user.id])
 
   return (
     <div className="text-white">
@@ -54,7 +54,7 @@ const Post = () => {
           </div>
         </div>
       </section>
-      <PostFeed profile={profile} home={true}/>
+      <PostFeed/>
     </div>
   )
 }

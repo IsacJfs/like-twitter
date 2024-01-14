@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store'
-import { curtirPostagem } from './getThunk'
+import { fetchLikePost } from './getThunk'
 
 export const useLike = () => {
   const dispatch = useDispatch<AppDispatch>()
@@ -8,7 +8,7 @@ export const useLike = () => {
   const error = useSelector((state: RootState) => state.curtir.error)
 
   const handleCurtir = (postId: string, token: string) => {
-    dispatch(curtirPostagem({ postId, token }))
+    dispatch(fetchLikePost({ postId, token }))
   }
 
   return {
