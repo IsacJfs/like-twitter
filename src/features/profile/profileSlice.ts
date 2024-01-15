@@ -17,7 +17,7 @@ const initialState: ProfileState = {
   birthday: null,
   profilePicture: null,
   coverPicture: null,
-  following_usernames: [],
+  following_username: [],
   followers_count: 0,
   isLoading: false,
   error: null,
@@ -32,7 +32,7 @@ export const profileSlice = createSlice({
       Object.assign(state, action.payload)
     },
     updateFollowing: (state, action: PayloadAction<string[]>) => {
-      state.following_usernames = action.payload
+      state.following_username = action.payload
     },
     clearProfile: () => initialState
   },

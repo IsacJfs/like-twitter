@@ -3,7 +3,6 @@ import Button from "./Button";
 import { useFollow } from "@/features/follow/useFollow";
 import toast from "react-hot-toast";
 import { useLocalUser } from "@/features/profile/useLocalUser";
-import { handleFollower } from "@/features/follow/postThunk";
 
 interface FollowButtonProps {
   targetUser: string;
@@ -33,12 +32,8 @@ const FollowButton = ({ targetUser }: FollowButtonProps) => {
         throw new Error('Usuário não logado!')
       }
 
-      const actionResult = await addFollowerToUser(targetUser, token)
-      if (handleFollower.fulfilled.match(actionResult)) {
-        toast.success('Usuário seguido com sucesso!')
-      } else {
-        throw new Error('Error following user:' + actionResult.payload)
-      }
+      addFollowerToUser(targetUser, token)
+
     } catch (error) {
         toast.error('Erro inesperado:' + error)
       }
@@ -50,13 +45,7 @@ const FollowButton = ({ targetUser }: FollowButtonProps) => {
         toast.error('Usuário não logado!')
         throw new Error('Usuário não logado!')
       }
-
-      const actionResult = await removeFollowerToUser(targetUser, token)
-      if (handleFollower.fulfilled.match(actionResult)) {
-        toast.success('Usuário seguido com sucesso!')
-      } else {
-        throw new Error('Error following user:' + actionResult.payload)
-      }
+      removeFollowerToUser(targetUser, token)
     } catch (error) {
         toast.error('Erro inesperado:' + error)
       }
@@ -64,9 +53,6 @@ const FollowButton = ({ targetUser }: FollowButtonProps) => {
 
   let label = '...'
   let onClick = () => {}
-  console.log('targetUser', targetUser)
-  console.log('localUser.username', localUser)
-  console.log('localUser.following_username', localUser.following_username)
 
   if (localUser.username === targetUser) {
     label = 'Editar'
