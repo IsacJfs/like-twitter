@@ -11,13 +11,14 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const dispatch = useDispatch()
 
+  const storedUser = localStorage.getItem('user')
+  const storedPass = sessionStorage.getItem('auth_token')
+
   useEffect(() => {
-    const storedUser = localStorage.getItem('user')
-    const storedPass = sessionStorage.getItem('auth_token')
     if (storedUser) {
       dispatch(setUser({ username: storedUser, token: storedPass }))
     }
-  }, [dispatch])
+  }, [dispatch, storedPass, storedUser])
 
   return (
     <div className="h-screen bg-black">

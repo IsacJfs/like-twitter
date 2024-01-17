@@ -15,7 +15,9 @@ const HomeOthers = () => {
   const user = localStorage.getItem('user')
 
   useEffect(() => {
-    loadLocalUser(user || '')
+    if (user) {
+      loadLocalUser(user)
+    }
   }, [loadLocalUser, user])
 
   return (
