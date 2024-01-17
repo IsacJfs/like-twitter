@@ -13,7 +13,7 @@ const PostModal = () => {
     title="Postagem"
     onClose={postModalClose}
     onSubmit={onSubmit}
-    body={<Post />}
+    body={<Post onSubmitSuccess={() => {}}/>}
     isOpen={isOpen}
     actionLabel="Sair"
     />

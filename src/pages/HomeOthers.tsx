@@ -8,7 +8,7 @@ import ProfileHero from '@/components/profile/ProfileHero'
 import ProfileUser from '@/components/profile/ProfileUser'
 
 import { useLocalUser } from '@/features/profile/useLocalUser'
-import UserFeed from '@/components/posts/userFeed'
+import UserFeed from '@/components/posts/UserFeed'
 
 const HomeOthers = () => {
   const { loadLocalUser, localUser } = useLocalUser()

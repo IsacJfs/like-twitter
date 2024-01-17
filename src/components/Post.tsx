@@ -38,7 +38,7 @@ const Post = ({ onSubmitSuccess }: PostProps) => {
         autor: localUser.user.id,
         conteudo: posts
       } as NewPost),
-        onSubmitSuccess()
+      onSubmitSuccess()
       loadPosts() // solução provisória de atualização, deve ser refatorada para que a atualização seja feita em um estado local
       setPosts('') // limpar o campo
     } catch (error) {
