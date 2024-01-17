@@ -23,9 +23,6 @@ const LoginModal = () => {
       login(username, password)
       localStorage.setItem('user', username)
       sessionStorage.setItem('auth_token', userData?.token || '')
-
-      toast.success('Login efetuado com sucesso!')
-
       onClose()
       setUsername('')
       setPassword('')

@@ -10,8 +10,8 @@ export const useFollow = () => {
     const response = await dispatch(handleFollower({ followerUsername, token }))
     return response
   }
-  const removeFollowerToUser = (followerUsername: string, token: string) => {
-    const response = dispatch(handleUnfollower({ followerUsername, token }))
+  const removeFollowerToUser = async (followerUsername: string, token: string) => {
+    const response = await dispatch(handleUnfollower({ followerUsername, token }))
     return response
   }
 

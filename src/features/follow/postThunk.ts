@@ -22,7 +22,7 @@ export const handleFollower = createAsyncThunk(
       return response.data
     } catch (error) {
       if (axios.isAxiosError(error) && error.response) {
-        return rejectWithValue(error.response.data.message || 'Erro ao adicionar seguidor.');
+        return rejectWithValue(error.response?.data?.message || 'Erro ao adicionar seguidor.');
       }
       return rejectWithValue('Erro desconhecido ao adicionar seguidor.');
     }
@@ -42,13 +42,13 @@ export const handleUnfollower = createAsyncThunk(
           }
         }
       );
-      toast.success(response.data['success'])
-      return response;
+      toast.success(response.data['message'])
+      return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        return rejectWithValue(error.response?.data?.detail || 'Erro ao adicionar seguidor.');
+      if (axios.isAxiosError(error) && error.response) {
+        return rejectWithValue(error.response?.data?.message || 'Erro ao remover seguidor.');
       }
-      return rejectWithValue('Erro desconhecido ao adicionar seguidor.');
+      return rejectWithValue('Erro desconhecido ao remover seguidor.');
     }
   }
 );

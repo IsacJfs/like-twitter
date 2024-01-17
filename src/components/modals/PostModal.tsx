@@ -13,7 +13,6 @@ const PostModal = () => {
   const onSubmit = () => {
     try {
       addNewPost({autor: autor, conteudo: post} as NewPost)
-      toast.success('Post criado com sucesso!')
       postModalClose()
     } catch (e) {
       toast.error('Erro na submissão:' + e)

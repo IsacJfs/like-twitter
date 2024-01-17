@@ -28,7 +28,7 @@ const followSlice = createSlice({
     })
     builder.addCase(handleFollower.fulfilled, (state, action) => {
       state.isLoading = false
-      state.followSuccess = action.payload(true)
+      state.followSuccess = true
       state.message = action.payload.message || 'Seguidor adicionado com sucesso.'
       state.error = null
     })

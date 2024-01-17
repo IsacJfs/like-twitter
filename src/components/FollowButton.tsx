@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Button from "./Button";
 import { useFollow } from "@/features/follow/useFollow";
 import toast from "react-hot-toast";
@@ -13,12 +13,21 @@ const FollowButton = ({ targetUser }: FollowButtonProps) => {
   const { addFollowerToUser, removeFollowerToUser } = useFollow()
   const user = localStorage.getItem('user')
   const token = sessionStorage.getItem('auth_token')
+  const [localUserFollowing, setLocalUserFollowing] = useState(localUser.following_username)
+
 
   useEffect(() => {
     if (user) {
       loadLocalUser(user)
     }
   }, [user, loadLocalUser])
+
+  useEffect(() => {
+    if (localUser.following_username) {
+      setLocalUserFollowing(localUser.following_username)
+    }
+  }, [localUser.following_username])
+
 
   const onFollow = useCallback(async () => {
     try {
@@ -32,12 +41,12 @@ const FollowButton = ({ targetUser }: FollowButtonProps) => {
         throw new Error('Usuário não logado!')
       }
 
-      addFollowerToUser(targetUser, token)
-
+      await addFollowerToUser(targetUser, token)
+      setLocalUserFollowing([...localUserFollowing, targetUser])
     } catch (error) {
         toast.error('Erro inesperado:' + error)
       }
-  }, [addFollowerToUser, localUser.username, targetUser, token])
+  }, [addFollowerToUser, localUser.username, localUserFollowing, targetUser, token])
 
   const onUnfollow = useCallback(async () => {
     try {
@@ -45,11 +54,14 @@ const FollowButton = ({ targetUser }: FollowButtonProps) => {
         toast.error('Usuário não logado!')
         throw new Error('Usuário não logado!')
       }
-      removeFollowerToUser(targetUser, token)
+      await removeFollowerToUser(targetUser, token)
+      setLocalUserFollowing(localUserFollowing.filter((user) => user !== targetUser))
     } catch (error) {
         toast.error('Erro inesperado:' + error)
       }
-  }, [targetUser, token, removeFollowerToUser])
+  }, [token, removeFollowerToUser, targetUser, localUserFollowing])
+
+
 
   let label = '...'
   let onClick = () => {}
@@ -57,8 +69,8 @@ const FollowButton = ({ targetUser }: FollowButtonProps) => {
   if (localUser.username === targetUser) {
     label = 'Editar'
     onClick = () => {}
-  } else if (localUser.following_username.includes(targetUser)) {
-    label = 'unFollow'
+  } else if (localUserFollowing.includes(targetUser)) {
+    label = 'Unfollow'
     onClick = () => {onUnfollow()}
   } else {
     label = 'Follow'

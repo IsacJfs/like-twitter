@@ -35,9 +35,6 @@ const RegisterModal = () => {
         throw new Error('As senhas não coincidem')
       }
       register(userData)
-
-      toast.success('Conta criada com sucesso!')
-
       onClose()
     } catch (e) {
       toast.error('Erro na submissão:' + e)
