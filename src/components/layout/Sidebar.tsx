@@ -7,14 +7,14 @@ import SidebarItem from './SidebarItem'
 import SidebarTweetButton from './SidebarTweetButton'
 import { useLoginModal } from '@/features/auth/useLoginModal'
 import { BaseUrl } from '@/utils/BaseUrl'
+import { useState } from 'react'
 
 const Sidebar = () => {
   const navigate = useNavigate()
   const { onOpen } = useLoginModal()
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false)
 
   const handleLogout = async () => {
-    console.log('Fazendo logout...')
-    console.log(sessionStorage.getItem('auth_token'))
     try {
       const response = await fetch(`${BaseUrl()}/auth/logout/`, {
         method: 'POST',
@@ -28,7 +28,6 @@ const Sidebar = () => {
       }
       navigate('/') // Redirecione para a página de login ou outra página
       window.location.reload()
-      console.log('Logout bem-sucedido')
     } catch (error) {
       console.error('Erro no logout:', error)
     } finally {
@@ -39,10 +38,14 @@ const Sidebar = () => {
     }
   }
 
+  if (!sessionStorage.getItem('auth_token')) {
+    setIsLoggedIn(true)
+  }
+
   const items = [
     {
       label: 'Home',
-      href: '/',
+      href: isLoggedIn ? '/home' : '/',
       icon: GoHomeFill
     },
     {
@@ -52,7 +55,7 @@ const Sidebar = () => {
     },
     {
       label: 'Profile',
-      href: '/users/me',
+      href: '/home',
       icon: BsPerson
     }
   ]

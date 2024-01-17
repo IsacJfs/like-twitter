@@ -1,21 +1,16 @@
-import { useEffect, useMemo } from 'react'
+import { useMemo } from 'react'
 import { BiCalendar } from 'react-icons/bi'
 import { format } from 'date-fns'
 
-import { useProfile } from '@/features/profile/useProfile'
-import Button from '../Button'
-import { useFollow } from '@/features/follow/useFollow'
+import FollowButton from '../butons/FollowButton'
+import { ProfileState } from '@/features/profile/types'
+import toast from 'react-hot-toast'
+
 interface ProfileUserProps {
-  userId: string
+  profile: ProfileState
 }
 
-const ProfileUser: React.FC<ProfileUserProps> = ({ userId }) => {
-  const { profile, loadProfile } = useProfile()
-  const { addFollowerToUser } = useFollow()
-
-  useEffect(() => {
-    loadProfile(userId)
-  }, [userId, loadProfile])
+const ProfileUser: React.FC<ProfileUserProps> = ({ profile }) => {
 
   const createdAt = useMemo(() => {
     if (!profile.user?.date_joined) {
@@ -24,29 +19,18 @@ const ProfileUser: React.FC<ProfileUserProps> = ({ userId }) => {
 
     return format(new Date(profile.user.date_joined), 'MMMM yyyy')
   }, [profile.user.date_joined])
+  const token = sessionStorage.getItem('auth_token')
 
-  const onClick = () => {
-    const user = localStorage.getItem('user')
-    const followerUsername = profile.user.username
-    const token = sessionStorage.getItem('auth_token')
-    console.log(user)
-    console.log(token)
-    if (user == profile.user.username) {
-      throw new Error('Cannot follow yourself')
-    }
-
-    if (!user || !token || !followerUsername) {
-      throw new Error('User not logged in')
-    }
-
-    addFollowerToUser(user, followerUsername, token)
+  if (!token) {
+    toast.error('Token de autenticação ausente')
+    throw new Error('Token de autenticação ausente')
   }
 
   return (
     <div className="border-b-[1px] border-neutral-800 pb-4">
       <div className="mt-2 px-4">
         <div className='flex flex-row justify-end my-3'>
-          <Button label='Follow' onClick={onClick} />
+          <FollowButton targetUser={profile.username || ''} />
         </div>
         <div className="flex flex-col">
           <p className="text-white text-2xl font-semibold">
@@ -72,7 +56,7 @@ const ProfileUser: React.FC<ProfileUserProps> = ({ userId }) => {
         </div>
         <div className="flex flex-row items-center mt-4 gap-6">
           <div className="flex flex-row items-center gap-1">
-            <p className="text-white">{profile?.following_usernames?.length}</p>
+            <p className="text-white">{profile?.following_username?.length}</p>
             <p className="text-neutral-500">Following</p>
           </div>
           <div className="flex flex-row items-center gap-1">

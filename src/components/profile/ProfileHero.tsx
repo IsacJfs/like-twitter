@@ -1,25 +1,24 @@
-import { useProfile } from '@/features/profile/useProfile'
 import Avatar from '../Avatar'
 
 interface UserHeroProps {
-  userId: string
+  coverPicture: string
+  userId: number
 }
 
-const UserHero: React.FC<UserHeroProps> = ({ userId }) => {
-  const { profile } = useProfile()
+const UserHero: React.FC<UserHeroProps> = ({ coverPicture, userId }) => {
 
   return (
     <div>
       <div className="bg-neutral-700 h-44 relative">
-        {profile?.coverPicture && (
+        {coverPicture && (
           <img
-            src={profile?.coverPicture}
+            src={coverPicture}
             alt="Cover Image"
             style={{ objectFit: 'cover' }}
           />
         )}
         <div className="absolute -bottom-16 left-4">
-          <Avatar userId={userId} isLarge hasBorder />
+          <Avatar userId={userId.toString()} isLarge hasBorder />
         </div>
       </div>
     </div>

@@ -5,13 +5,11 @@ import { BaseUrl } from '@/utils/BaseUrl'
 const postsUrl = `${BaseUrl()}/api/postagens/`
 
 // Thunk para o carregamento de todas as postagens
-export const fetchPosts = createAsyncThunk(
-  'posts/fetchPosts',
+export const fetchPostList = createAsyncThunk(
+  'posts/fetchPostsList',
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(postsUrl)
-      console.log(response)
-      console.log(postsUrl)
       return response.data
     } catch (error) {
       if (axios.isAxiosError(error)) {
@@ -25,8 +23,8 @@ export const fetchPosts = createAsyncThunk(
 )
 
 // Thunk para o carregamento de uma postagem
-export const fentchPost = createAsyncThunk(
-  'posts/fentchPost',
+export const fentchPostUser = createAsyncThunk(
+  'posts/fentchPostUser',
   async (id: number, thunkAPI) => {
     try {
       const url = `${postsUrl}${id}/`
@@ -66,8 +64,8 @@ export const fetchPostsByUser = createAsyncThunk(
 )
 
 // Thunk para curtir uma postagem
-export const curtirPostagem = createAsyncThunk(
-  'postagens/curtir',
+export const fetchLikePost = createAsyncThunk(
+  'posts/likePost',
   async ({ postId, token }: { postId: string; token: string }) => {
     const response = await axios.post(
       `${postsUrl}${postId}/curtir/`,
@@ -78,7 +76,6 @@ export const curtirPostagem = createAsyncThunk(
         }
       }
     )
-    console.log(response.data)
     return response.data
   }
 )

@@ -1,22 +1,20 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store'
-import { addPost, removePost } from './postSlice'
 import { useCallback } from 'react'
-import { fetchPosts, fentchPost, fetchPostsByUser } from './getThunk'
-import { PostState } from './types'
+import { fetchPostList, fentchPostUser, fetchPostsByUser } from './getThunk'
+import { fentchAddPost } from './postThunk'
+import { NewPost } from './types'
 
 export const usePost = () => {
   const dispatch = useDispatch<AppDispatch>()
-  // Corrigir o seletor para pegar os posts do estado correto
   const posts = useSelector((state: RootState) => state.post)
 
-  const loadPosts = useCallback(() => {
-    dispatch(fetchPosts())
+  const loadPosts = useCallback(async () => {
+    await dispatch(fetchPostList())
   }, [dispatch])
 
-  const loadPost = useCallback(
-    (postId: number) => {
-      dispatch(fentchPost(postId))
+  const loadPost = useCallback( async (postId: number) => {
+    await dispatch(fentchPostUser(postId))
     },
     [dispatch]
   )
@@ -28,12 +26,8 @@ export const usePost = () => {
     [dispatch]
   )
 
-  const handleAddPost = (post: PostState) => {
-    dispatch(addPost(post))
-  }
-
-  const handleRemovePost = (postId: number) => {
-    dispatch(removePost(postId))
+  const handleAddPost = (post: NewPost) => {
+    dispatch(fentchAddPost(post))
   }
 
   return {
@@ -41,7 +35,6 @@ export const usePost = () => {
     loadPosts,
     loadPost,
     loadPostsByUser,
-    handleAddPost,
-    handleRemovePost
+    handleAddPost
   }
 }

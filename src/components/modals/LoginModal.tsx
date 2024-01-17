@@ -1,5 +1,6 @@
 import { useCallback, useState } from 'react'
 import { useRegisterModal } from '@/features/register/useRegisterModal'
+import { toast } from 'react-hot-toast'
 import Input from '../Input'
 import Modal from '../Modal'
 import { useUser } from '@/features/auth/useLogin'
@@ -12,12 +13,9 @@ const LoginModal = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const onToggle = useCallback(() => {
-    if (isLoading) {
-      return
-    }
     onClose()
     registerModal.onOpen()
-  }, [isLoading, registerModal, onClose])
+  }, [registerModal, onClose])
 
   const onSubmit = useCallback(async () => {
     try {
@@ -29,7 +27,7 @@ const LoginModal = () => {
       setUsername('')
       setPassword('')
     } catch (e) {
-      console.error('Erro na submissão:', e)
+      toast.error('Erro na submissão:')
     } finally {
       setIsLoading(false)
     }

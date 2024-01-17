@@ -1,10 +1,11 @@
-import { UserState } from "../profile/profileSlice"
+import { UserState } from '../profile/types'
 
 export interface NewPost {
   autor: string
   conteudo: string
   isLoading: boolean
   error: string | null
+  isOpen: boolean
 }
 
 export interface PostState {

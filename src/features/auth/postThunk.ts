@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { BaseUrl } from '@/utils/BaseUrl'
+import toast from 'react-hot-toast'
 // Definindo os tipos para os parâmetros da função de login
 interface LoginParams {
   username: string
@@ -28,11 +29,14 @@ export const loginThunk = createAsyncThunk<
     )
     localStorage.setItem('user', username)
     sessionStorage.setItem('auth_token', response.data.auth_token)
+    if (response.data.auth_token) {
+      toast.success('Login realizado com sucesso!')
+    }
     return { username, token: response.data.auth_token }
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      // Tratamento de erro de Axios
-      return rejectWithValue(error.response.data.error || 'Erro ao fazer login')
+      toast.error('Usuário ou senha inválidos!')
+      return rejectWithValue(error.message)
     }
     return rejectWithValue('Erro desconhecido ao fazer login')
   }

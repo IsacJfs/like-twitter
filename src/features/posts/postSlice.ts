@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { fetchPosts, fentchPost, fetchPostsByUser } from './getThunk'
-import { PostsState, PostState } from './types'
+import { createSlice} from '@reduxjs/toolkit'
+import { fetchPostList, fentchPostUser, fetchPostsByUser } from './getThunk'
+import { PostsState} from './types'
 
 const initialState: PostsState = {
   posts: [],
@@ -9,27 +9,20 @@ const initialState: PostsState = {
 }
 
 const postsSlice = createSlice({
-  name: 'posts',
+  name: 'getPost',
   initialState,
-  reducers: {
-    addPost(state, action: PayloadAction<PostState>) {
-      state.posts.push(action.payload)
-    },
-    removePost(state, action: PayloadAction<number>) {
-      state.posts = state.posts.filter((post) => post.id !== action.payload)
-    }
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchPosts.pending, (state) => {
+      .addCase(fetchPostList.pending, (state) => {
         state.isLoading = true
         state.error = null
       })
-      .addCase(fetchPosts.fulfilled, (state, action) => {
+      .addCase(fetchPostList.fulfilled, (state, action) => {
         state.isLoading = false
         state.posts = action.payload
       })
-      .addCase(fetchPosts.rejected, (state, action) => {
+      .addCase(fetchPostList.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload as string
       })
@@ -45,21 +38,19 @@ const postsSlice = createSlice({
         state.isLoading = false
         state.error = action.payload as string
       })
-      .addCase(fentchPost.pending, (state) => {
+      .addCase(fentchPostUser.pending, (state) => {
         state.isLoading = true
         state.error = null
       })
-      .addCase(fentchPost.fulfilled, (state, action) => {
+      .addCase(fentchPostUser.fulfilled, (state, action) => {
         state.isLoading = false
         state.posts = action.payload
       })
-      .addCase(fentchPost.rejected, (state, action) => {
+      .addCase(fentchPostUser.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload as string
       })
   }
 })
-
-export const { addPost, removePost } = postsSlice.actions
 
 export default postsSlice.reducer

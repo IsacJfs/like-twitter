@@ -2,42 +2,49 @@ import { useCallback, useEffect, useState } from 'react'
 import Avatar from './Avatar'
 import Button from './Button'
 import Input from './Input'
-import { useUser } from '@/features/users/useUser'
-import PostFeed from './posts/PostFeed'
-import { useProfile } from '@/features/profile/useProfile'
 import { NewPost } from '@/features/posts/types'
 import { useAddPost } from '@/features/posts/useAddPost'
+import toast from 'react-hot-toast'
+import { useLocalUser } from '@/features/profile/useLocalUser'
+import { usePost } from '@/features/posts/usePost'
 
-const Post = () => {
+type PostProps = {
+  onSubmitSuccess: () => void
+}
+
+const Post = ({ onSubmitSuccess }: PostProps) => {
   const [posts, setPosts] = useState('')
-  const { profile, loadProfile } = useProfile()
+  const { localUser, loadLocalUser } = useLocalUser()
   const { addNewPost } = useAddPost()
-
-  const user = useUser()
+  const { loadPosts } = usePost()
+  const user = localStorage.getItem('user')
 
   useEffect(() => {
-    if (!user.user.username) {
+    if (!user) {
       return
     }
-    loadProfile(user.user.username)
-  }, [loadProfile, user.user.username])
-  console.log(user)
-  console.log('profile')
-  console.log(profile.user.id)
+    loadLocalUser(user)
+  }, [loadLocalUser, loadPosts, user])
 
   const onSubmit = useCallback(async () => {
     try {
-      if (!profile.user.id) {
+      if (!localUser.user.id) {
         throw new Error('Usuário não logado')
       }
-      console.log(profile.user.id)
-      console.log(posts)
-      addNewPost({ autor: profile.user.id, conteudo: posts } as NewPost),
+      if (posts.length === 0) {
+        throw new Error('Preencha o campo de postagem')
+      }
+      await addNewPost({
+        autor: localUser.user.id,
+        conteudo: posts
+      } as NewPost),
+        onSubmitSuccess()
+      loadPosts() // solução provisória de atualização, deve ser refatorada para que a atualização seja feita em um estado local
       setPosts('') // limpar o campo
     } catch (error) {
-      console.error('Erro ao fazer post:', error)
+      toast.error('' + error)
     }
-  }, [addNewPost, posts, profile.user.id])
+  }, [localUser.user.id, posts, addNewPost, onSubmitSuccess, loadPosts])
 
   return (
     <div className="text-white">
@@ -57,7 +64,6 @@ const Post = () => {
           </div>
         </div>
       </section>
-      <PostFeed />
     </div>
   )
 }

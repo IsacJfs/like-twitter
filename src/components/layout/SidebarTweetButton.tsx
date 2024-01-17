@@ -1,15 +1,22 @@
 import { useLoginModal } from '@/features/auth/useLoginModal'
+import { useAddPost } from '@/features/posts/useAddPost'
 import { useCallback } from 'react'
 import { FaFeather } from 'react-icons/fa'
 
 const SidebarTweetButton = () => {
   const loginModal = useLoginModal()
+  const { postModalOpen } = useAddPost()
+
   const onClick = useCallback(() => {
-    loginModal.onOpen()
-  }, [loginModal])
+    if (!sessionStorage.getItem('auth_token')) {
+      loginModal.onOpen()
+    } else {
+      postModalOpen()
+    }
+  }, [loginModal, postModalOpen])
 
   return (
-    <div onClick={onClick}>
+    <div onClick={onClick} className='cursor-pointer'>
       <div
         className="
         mt-6

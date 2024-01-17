@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { setUser } from '../users/userSlice'
-import { fetchProfile } from './getThunk'
+import { fetchLocalUser } from './getThunk'
 import { ProfileState } from './types'
 
 const initialState: ProfileState = {
@@ -24,8 +24,8 @@ const initialState: ProfileState = {
   username: null
 }
 
-export const profileSlice = createSlice({
-  name: 'profile',
+export const localUserSlice = createSlice({
+  name: 'localUser',
   initialState,
   reducers: {
     setProfile: (state, action: PayloadAction<ProfileState>) => {
@@ -38,14 +38,14 @@ export const profileSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProfile.pending, (state) => {
+      .addCase(fetchLocalUser.pending, (state) => {
         state.isLoading = true
       })
-      .addCase(fetchProfile.fulfilled, (state, action) => {
+      .addCase(fetchLocalUser.fulfilled, (state, action) => {
         Object.assign(state, action.payload)
         state.isLoading = false
       })
-      .addCase(fetchProfile.rejected, (state, action) => {
+      .addCase(fetchLocalUser.rejected, (state, action) => {
         state.error = action.payload as string
         state.isLoading = false
       })
@@ -61,6 +61,6 @@ export const profileSlice = createSlice({
 
 
 export const { setProfile, updateFollowing, clearProfile } =
-  profileSlice.actions
+  localUserSlice.actions
 
-export default profileSlice.reducer
+export default localUserSlice.reducer
