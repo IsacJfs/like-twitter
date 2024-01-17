@@ -2,17 +2,21 @@ import { useCallback, useEffect, useState } from 'react'
 import Avatar from './Avatar'
 import Button from './Button'
 import Input from './Input'
-import PostFeed from './posts/PostFeed'
 import { NewPost } from '@/features/posts/types'
 import { useAddPost } from '@/features/posts/useAddPost'
 import toast from 'react-hot-toast'
 import { useLocalUser } from '@/features/profile/useLocalUser'
+import { usePost } from '@/features/posts/usePost'
 
-const Post = () => {
+type PostProps = {
+  onSubmitSuccess: () => void
+}
+
+const Post = ({ onSubmitSuccess }: PostProps) => {
   const [posts, setPosts] = useState('')
   const { localUser, loadLocalUser } = useLocalUser()
   const { addNewPost } = useAddPost()
-
+  const { loadPosts } = usePost()
   const user = localStorage.getItem('user')
 
   useEffect(() => {
@@ -20,21 +24,27 @@ const Post = () => {
       return
     }
     loadLocalUser(user)
-  }, [loadLocalUser, user])
-
+  }, [loadLocalUser, loadPosts, user])
 
   const onSubmit = useCallback(async () => {
     try {
       if (!localUser.user.id) {
         throw new Error('Usuário não logado')
       }
-      addNewPost({ autor: localUser.user.id, conteudo: posts } as NewPost),
-      toast.success('Post criado com sucesso!')
+      if (posts.length === 0) {
+        throw new Error('Preencha o campo de postagem')
+      }
+      await addNewPost({
+        autor: localUser.user.id,
+        conteudo: posts
+      } as NewPost),
+        onSubmitSuccess()
+      loadPosts() // solução provisória de atualização, deve ser refatorada para que a atualização seja feita em um estado local
       setPosts('') // limpar o campo
     } catch (error) {
-      toast.error('Erro ao fazer post:'+ error)
+      toast.error('' + error)
     }
-  }, [addNewPost, posts, localUser.user.id])
+  }, [localUser.user.id, posts, addNewPost, onSubmitSuccess, loadPosts])
 
   return (
     <div className="text-white">
@@ -54,7 +64,6 @@ const Post = () => {
           </div>
         </div>
       </section>
-      <PostFeed/>
     </div>
   )
 }

@@ -7,10 +7,12 @@ import SidebarItem from './SidebarItem'
 import SidebarTweetButton from './SidebarTweetButton'
 import { useLoginModal } from '@/features/auth/useLoginModal'
 import { BaseUrl } from '@/utils/BaseUrl'
+import { useState } from 'react'
 
 const Sidebar = () => {
   const navigate = useNavigate()
   const { onOpen } = useLoginModal()
+  const [ isLoggedIn, setIsLoggedIn ] = useState(false)
 
   const handleLogout = async () => {
     try {
@@ -36,10 +38,14 @@ const Sidebar = () => {
     }
   }
 
+  if (!sessionStorage.getItem('auth_token')) {
+    setIsLoggedIn(true)
+  }
+
   const items = [
     {
       label: 'Home',
-      href: '/',
+      href: isLoggedIn ? '/home' : '/',
       icon: GoHomeFill
     },
     {

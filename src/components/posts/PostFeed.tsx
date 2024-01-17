@@ -2,17 +2,21 @@ import { usePost } from '@/features/posts/usePost'
 
 import PostItem from './PostItem'
 import { useEffect } from 'react'
+import Post from '../Post'
 
 const PostFeed: React.FC = () => {
   const { posts, loadPosts } = usePost()
-
   useEffect(() => {
-      loadPosts()
+    loadPosts()
   }, [loadPosts])
 
+  const reversedPosts = [...posts.posts].reverse();
+
+  console.log(posts)
   return (
     <>
-      {posts.posts.map((post) => (
+      <Post onSubmitSuccess={loadPosts} />
+      {reversedPosts.map((post) => (
         <PostItem post={post} key={post.id} />
       ))}
     </>

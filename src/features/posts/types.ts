@@ -1,4 +1,4 @@
-import { UserState } from "../profile/profileSlice"
+import { UserState } from '../profile/types'
 
 export interface NewPost {
   autor: string

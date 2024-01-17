@@ -12,8 +12,9 @@ export const useAddPost = () => {
   const postModalOpen = () => dispatch(onOpen())
   const postModalClose = () => dispatch(onClose())
 
-  const addNewPost = (post: NewPost) => {
-    dispatch(fentchAddPost(post))
+  const addNewPost = async (post: NewPost) => {
+    const response = await dispatch(fentchAddPost(post))
+    return response
   }
 
   return {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import Button from "./Button";
+import Button from "../Button";
 import { useFollow } from "@/features/follow/useFollow";
 import toast from "react-hot-toast";
 import { useLocalUser } from "@/features/profile/useLocalUser";

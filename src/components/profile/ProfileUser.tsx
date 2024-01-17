@@ -2,8 +2,9 @@ import { useMemo } from 'react'
 import { BiCalendar } from 'react-icons/bi'
 import { format } from 'date-fns'
 
-import FollowButton from '../FollowButton'
+import FollowButton from '../butons/FollowButton'
 import { ProfileState } from '@/features/profile/types'
+import toast from 'react-hot-toast'
 
 interface ProfileUserProps {
   profile: ProfileState
@@ -21,6 +22,7 @@ const ProfileUser: React.FC<ProfileUserProps> = ({ profile }) => {
   const token = sessionStorage.getItem('auth_token')
 
   if (!token) {
+    toast.error('Token de autenticação ausente')
     throw new Error('Token de autenticação ausente')
   }
 

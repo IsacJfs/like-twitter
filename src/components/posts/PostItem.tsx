@@ -2,14 +2,11 @@ import { useCallback, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AiOutlineMessage } from 'react-icons/ai'
 import { formatDistanceToNowStrict, parseISO } from 'date-fns'
-
-// import { useUser } from '@/features/auth/useLogin'
-// import { useLike } from '@/features/posts/useLike'
-
 import Avatar from '../Avatar'
 import { PostState } from '@/features/posts/types'
-import { BiHeart } from 'react-icons/bi'
 import { ProfileState } from '@/features/profile/types'
+import LikeButton from '../butons/LikeButton'
+import toast from 'react-hot-toast'
 
 interface PostItemProps {
   post: PostState
@@ -18,35 +15,28 @@ interface PostItemProps {
 
 const PostItem: React.FC<PostItemProps> = ({ post }) => {
   const navigate = useNavigate()
-  // const { onOpen } = useUser()
-  // const { handleCurtir } = useLike()
-  // const token = sessionStorage.getItem('auth_token')
 
   const goToUser = useCallback(
     (ev: { stopPropagation: () => void }) => {
-      ev.stopPropagation()
-      navigate(`/users/${post.autor_username}`)
+      if (!sessionStorage.getItem('auth_token')) {
+        toast.error('Faça login para prosseguir')
+        throw new Error('Faça login para prosseguir')
+      } else {
+        ev.stopPropagation()
+        navigate(`/users/${post.autor_username}`)
+      }
     },
     [navigate, post.autor_username]
   )
 
   const goToPost = useCallback(() => {
+    if (!sessionStorage.getItem('auth_token')) {
+      toast.error('Faça login para prosseguir')
+      throw new Error('Faça login para prosseguir')
+    } else {
     navigate(`/postagens/${post.id}`)
+    }
   }, [navigate, post.id])
-
-  // const onLike = useCallback(
-  //   async (ev: { stopPropagation: () => void }) => {
-  //     ev.stopPropagation()
-
-  //     if (!profile) {
-  //       return onOpen()
-  //     }
-  //     handleCurtir(String(post.id), token || '')
-  //   },
-  //   [profile, handleCurtir, post.id, token, onOpen]
-  // )
-
-  const onLike = () => {}
 
   const createdAt = useMemo(() => {
     if (!post.data_criacao) {
@@ -114,22 +104,7 @@ const PostItem: React.FC<PostItemProps> = ({ post }) => {
               <AiOutlineMessage size={20} />
               <p>{post.comentarios.length}</p>
             </div>
-            <div
-              onClick={onLike}
-              className="
-                flex
-                flex-row
-                items-center
-                text-neutral-500
-                gap-2
-                cursor-pointer
-                transition
-                hover:text-red-500
-            "
-            >
-              <BiHeart size={20} />
-              <p>{post.curtidas_count}</p>
-            </div>
+            <LikeButton curtidas_count={post.curtidas_count}/>
           </div>
         </div>
       </div>
