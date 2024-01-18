@@ -9,10 +9,7 @@ const PostFeed: React.FC = () => {
   useEffect(() => {
     loadPosts()
   }, [loadPosts])
-
   const reversedPosts = [...posts.posts].reverse();
-
-  console.log(posts)
   return (
     <>
       <Post onSubmitSuccess={loadPosts} />

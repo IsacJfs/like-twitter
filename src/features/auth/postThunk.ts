@@ -41,3 +41,30 @@ export const loginThunk = createAsyncThunk<
     return rejectWithValue('Erro desconhecido ao fazer login')
   }
 })
+
+export const logoutThunk = createAsyncThunk
+('user/logout', async () => {
+    try {
+      const response = await axios.post<LoginResponse>(
+        `${BaseUrl()}/auth/token/logout/`,
+        {'Token': sessionStorage.getItem('auth_token')},
+        {headers: {
+          Authorization: `Token ${sessionStorage.getItem('auth_token')}`,
+          'Content-Type': 'application/json'
+        }
+      })
+      if (!response) {
+        throw new Error('Falha ao fazer logout')
+      }
+      sessionStorage.removeItem('user')
+      sessionStorage.removeItem('auth_token')
+      toast.success('Logout realizado com sucesso!')
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        toast.error('Usuário ou senha inválidos!')
+        return (error.message)
+      }
+      return ('Erro desconhecido ao fazer login')
+    }
+  }
+)

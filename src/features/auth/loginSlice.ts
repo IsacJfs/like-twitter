@@ -6,13 +6,15 @@ interface UserState {
   userData: { username: string; token: string } | null
   loading: boolean
   error: string | null
+  loginSuccess: boolean
 }
 
 const initialState: UserState = {
   isOpen: false,
   userData: null,
   loading: false,
-  error: null
+  error: null,
+  loginSuccess: false
 }
 
 const loginSlice = createSlice({
@@ -31,12 +33,14 @@ const loginSlice = createSlice({
       .addCase(loginThunk.pending, (state) => {
         state.loading = true
         state.error = null
+        state.loginSuccess = false
       })
       .addCase(
         loginThunk.fulfilled,
         (state, action: PayloadAction<{ username: string; token: string }>) => {
           state.userData = action.payload
           state.loading = false
+          state.loginSuccess = true
         }
       )
       .addCase(
@@ -44,6 +48,7 @@ const loginSlice = createSlice({
         (state, action: PayloadAction<string | undefined>) => {
           state.error = action.payload ?? 'Ocorreu um erro desconhecido'
           state.loading = false
+          state.loginSuccess = false
         }
       )
   }

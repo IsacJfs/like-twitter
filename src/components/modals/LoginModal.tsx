@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRegisterModal } from '@/features/register/useRegisterModal'
 import { toast } from 'react-hot-toast'
 import Input from '../Input'
@@ -7,7 +7,7 @@ import { useUser } from '@/features/auth/useLogin'
 
 const LoginModal = () => {
   const registerModal = useRegisterModal()
-  const { login, onClose, isOpen, userData } = useUser()
+  const { login, onClose, isOpen, userData, loginSuccess } = useUser()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -17,21 +17,25 @@ const LoginModal = () => {
     registerModal.onOpen()
   }, [registerModal, onClose])
 
+  useEffect(() => {
+    if (loginSuccess) {
+      setPassword('')
+      sessionStorage.setItem('auth_token', userData?.token || '')
+      sessionStorage.setItem('user', username)
+      onClose()
+    }
+  }, [loginSuccess, onClose, userData?.token, username])
+
   const onSubmit = useCallback(async () => {
     try {
       setIsLoading(true)
       login(username, password)
-      localStorage.setItem('user', username)
-      sessionStorage.setItem('auth_token', userData?.token || '')
-      onClose()
-      setUsername('')
-      setPassword('')
     } catch (e) {
       toast.error('Erro na submissão:')
     } finally {
       setIsLoading(false)
     }
-  }, [login, username, password, userData?.token, onClose])
+  }, [login, username, password])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">

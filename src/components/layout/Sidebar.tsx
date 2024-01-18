@@ -5,36 +5,21 @@ import { BiLogOut } from 'react-icons/bi'
 import SidebarLogo from './SidebarLogo'
 import SidebarItem from './SidebarItem'
 import SidebarTweetButton from './SidebarTweetButton'
-import { useLoginModal } from '@/features/auth/useLoginModal'
-import { BaseUrl } from '@/utils/BaseUrl'
+import { useLogout } from '@/features/auth/useLogout'
+import toast from 'react-hot-toast'
 
 const Sidebar = () => {
   const navigate = useNavigate()
-  const { onOpen } = useLoginModal()
-  const handleLogout = async () => {
+  const {logout} = useLogout()
+  const handleLogout = () => {
     try {
-      const response = await fetch(`${BaseUrl()}/auth/logout/`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Token ${sessionStorage.getItem('auth_token')}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      if (!response.ok) {
-        throw new Error('Falha ao fazer logout')
-      }
-      navigate('/') // Redirecione para a página de login ou outra página
-      window.location.reload()
+      logout()
+      navigate(`/`)
     } catch (error) {
-      console.error('Erro no logout:', error)
-    } finally {
-      sessionStorage.removeItem('auth_token')
-
-      localStorage.removeItem('user')
-      onOpen()
+      toast.error('Erro ao fazer logout')
+      console.log(error)
     }
   }
-
   const items = [
     {
       label: 'Home',
@@ -51,7 +36,7 @@ const Sidebar = () => {
       href: '/home',
       icon: BsPerson
     }
-  ] 
+  ]
 
   return (
     <div className="col-span-1 h-full pr-4 md:pr-6">

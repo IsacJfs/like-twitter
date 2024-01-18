@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useRegisterModal } from '@/features/register/useRegisterModal'
 import { useLoginModal } from '@/features/auth/useLoginModal'
 import Input from '../Input'
@@ -7,7 +7,7 @@ import { RegisterData } from '@/features/register/types'
 import toast from 'react-hot-toast'
 
 const RegisterModal = () => {
-  const {register, onClose, isLoading, isOpen } = useRegisterModal()
+  const {register, onClose, isLoading, isOpen, registerSuccess } = useRegisterModal()
   const loginModal = useLoginModal()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -21,6 +21,18 @@ const RegisterModal = () => {
     loginModal.onOpen()
   }, [onClose, loginModal])
 
+  useEffect(() => {
+    if (registerSuccess) {
+      setEmail('')
+      setPassword('')
+      setFirstName('')
+      setUsername('')
+      setConfirmPassword('')
+      setLastName('')
+      onClose()
+    }
+  }, [registerSuccess, onToggle, onClose])
+
   const onSubmit = useCallback(async () => {
     const userData: RegisterData = {
       email: email,
@@ -30,18 +42,15 @@ const RegisterModal = () => {
       last_name: lastName
     }
     try {
-      isLoading
       if (password !== confirmPassword) {
         throw new Error('As senhas não coincidem')
       }
-      register(userData)
-      onClose()
+      await register(userData)
+
     } catch (e) {
       toast.error('Erro na submissão:' + e)
-    } finally {
-      isLoading
     }
-  }, [email, password, username, firstName, lastName, isLoading, confirmPassword, register, onClose])
+  }, [email, password, username, firstName, lastName, confirmPassword, register])
 
   const bodyContent = (
     <div className="flex flex-col gap-4">

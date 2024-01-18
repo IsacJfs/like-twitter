@@ -5,12 +5,14 @@ interface RegisterState {
   isOpen: boolean
   isLoading: boolean
   error: string | null
+  registerSuccess: boolean
 }
 
 const initialState: RegisterState = {
   isOpen: false,
   isLoading: false,
-  error: null
+  error: null,
+  registerSuccess: false
 }
 
 const registerModalSlice = createSlice({
@@ -30,13 +32,16 @@ const registerModalSlice = createSlice({
       .addCase(registerUserThunk.pending, (state) => {
         state.isLoading = true
         state.error = null
+        state.registerSuccess = false
       })
       .addCase(registerUserThunk.fulfilled, (state) => {
         state.isLoading = false
+        state.registerSuccess = true
       })
       .addCase(registerUserThunk.rejected, (state, action) => {
         state.isLoading = false
         state.error = action.payload as string
+        state.registerSuccess = false
       })
   }
 })

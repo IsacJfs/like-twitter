@@ -9,13 +9,15 @@ export const useRegisterModal = () => {
   const isOpen = useSelector((state: RootState) => state.registerModal.isOpen)
   const isLoading = useSelector((state: RootState) => state.registerModal.isLoading);
   const error = useSelector((state: RootState) => state.registerModal.error);
+  const registerSuccess = useSelector((state: RootState) => state.registerModal.registerSuccess);
 
   const handleOpen = () => dispatch(onOpen())
   const handleClose = () => dispatch(onClose())
 
-  const register = (userData: RegisterData) => {
-    dispatch(registerUserThunk(userData));
+  const register = async (userData: RegisterData) => {
+    const response = await dispatch(registerUserThunk(userData));
+    return response
   };
 
-  return { isOpen, onOpen: handleOpen, onClose: handleClose, isLoading, error, register }
+  return { isOpen, onOpen: handleOpen, onClose: handleClose, isLoading, error, register, registerSuccess }
 }
