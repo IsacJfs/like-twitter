@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux'
-import { onClose, onOpen } from './loginSlice'
+import { onClose, onOpen, setLoginSuccess } from './loginSlice'
 import { AppDispatch, RootState } from '../store'
 import { loginThunk } from './postThunk'
 
@@ -13,6 +13,13 @@ export const useUser = () => {
 
   const handleOpen = () => dispatch(onOpen())
   const handleClose = () => dispatch(onClose())
+  const hadleLoginSuccess = () => {
+    dispatch(setLoginSuccess(true))
+  }
+
+  const hadleLogoutSuccess = () => {
+    dispatch(setLoginSuccess(false))
+  }
 
   const login = (username: string, password: string) => {
     dispatch(loginThunk({ username, password }))
@@ -26,6 +33,8 @@ export const useUser = () => {
     loading,
     error,
     login,
-    loginSuccess
+    loginSuccess,
+    hadleLoginSuccess,
+    hadleLogoutSuccess
   }
 }
