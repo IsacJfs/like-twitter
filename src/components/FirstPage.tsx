@@ -7,15 +7,15 @@ const FirstPage = () => {
   const { onOpen: loginModal } = useUser()
   const { onOpen: registerModal } = useRegisterModal()
   const clickCreateAccount = () => {
-    loginModal()
-  }
-
-  const clickLogin = () => {
     registerModal()
   }
 
+  const clickLogin = () => {
+    loginModal()
+  }
+
   return (
-    <div>
+    <div className='bg-black'>
       <div className="block md:grid grid-cols-2 text-white">
         <div className="hidden md:flex">
           <picture className="m-auto">

@@ -9,6 +9,7 @@ export const useUser = () => {
   const userData = useSelector((state: RootState) => state.login.userData)
   const loading = useSelector((state: RootState) => state.login.loading)
   const error = useSelector((state: RootState) => state.login.error)
+  const loginSuccess = useSelector((state: RootState) => state.login.loginSuccess)
 
   const handleOpen = () => dispatch(onOpen())
   const handleClose = () => dispatch(onClose())
@@ -24,6 +25,7 @@ export const useUser = () => {
     userData,
     loading,
     error,
-    login
+    login,
+    loginSuccess
   }
 }

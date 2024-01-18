@@ -10,6 +10,7 @@ import loginReducer from './auth/loginSlice'
 import addPostReducer from './posts/addPostSlice'
 import followReducer from './follow/followSlice'
 import localUserReducer from './profile/userSlice'
+import logoutReducer from './auth/logoutSlice'
 
 export const store = configureStore({
   reducer: {
@@ -23,7 +24,8 @@ export const store = configureStore({
     login: loginReducer,
     addPost: addPostReducer,
     addFollower: followReducer,
-    localUser: localUserReducer
+    localUser: localUserReducer,
+    logout: logoutReducer
   }
 })
 
