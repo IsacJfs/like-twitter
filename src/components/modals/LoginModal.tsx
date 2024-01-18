@@ -12,21 +12,20 @@ const LoginModal = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { isLogout } = useLogout()
   const onToggle = useCallback(() => {
     onClose()
     registerModal.onOpen()
   }, [registerModal, onClose])
 
   useEffect(() => {
-    if (loginSuccess && !isLogout) {
+    if (loginSuccess) {
       console.log("UserData",userData?.token)
       setPassword('')
       sessionStorage.setItem('auth_token', userData?.token || '')
       sessionStorage.setItem('user', username)
       onClose()
     }
-  }, [isLogout, loginSuccess, onClose, userData?.token, username])
+  }, [loginSuccess, onClose, userData?.token, username])
 
   const onSubmit = useCallback(async () => {
     try {
