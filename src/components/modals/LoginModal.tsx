@@ -4,6 +4,7 @@ import { toast } from 'react-hot-toast'
 import Input from '../Input'
 import Modal from '../Modal'
 import { useUser } from '@/features/auth/useLogin'
+import { useLogout } from '@/features/auth/useLogout'
 
 const LoginModal = () => {
   const registerModal = useRegisterModal()
@@ -11,20 +12,21 @@ const LoginModal = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-
+  const { isLogout } = useLogout()
   const onToggle = useCallback(() => {
     onClose()
     registerModal.onOpen()
   }, [registerModal, onClose])
 
   useEffect(() => {
-    if (loginSuccess) {
+    if (loginSuccess && !isLogout) {
+      console.log("UserData",userData?.token)
       setPassword('')
       sessionStorage.setItem('auth_token', userData?.token || '')
       sessionStorage.setItem('user', username)
       onClose()
     }
-  }, [loginSuccess, onClose, userData?.token, username])
+  }, [isLogout, loginSuccess, onClose, userData?.token, username])
 
   const onSubmit = useCallback(async () => {
     try {
