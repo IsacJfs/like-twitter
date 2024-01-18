@@ -13,11 +13,11 @@ export const useUser = () => {
 
   const handleOpen = () => dispatch(onOpen())
   const handleClose = () => dispatch(onClose())
-  const hadleLoginSuccess = () => {
+  const handleLoginSuccess = () => {
     dispatch(setLoginSuccess(true))
   }
 
-  const hadleLogoutSuccess = () => {
+  const handleLogoutSuccess = () => {
     dispatch(setLoginSuccess(false))
   }
 
@@ -34,7 +34,7 @@ export const useUser = () => {
     error,
     login,
     loginSuccess,
-    hadleLoginSuccess,
-    hadleLogoutSuccess
+    handleLoginSuccess,
+    handleLogoutSuccess
   }
 }

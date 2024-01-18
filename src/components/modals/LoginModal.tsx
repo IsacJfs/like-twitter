@@ -4,11 +4,10 @@ import { toast } from 'react-hot-toast'
 import Input from '../Input'
 import Modal from '../Modal'
 import { useUser } from '@/features/auth/useLogin'
-import { useLogout } from '@/features/auth/useLogout'
 
 const LoginModal = () => {
   const registerModal = useRegisterModal()
-  const { login, onClose, isOpen, userData, loginSuccess } = useUser()
+  const { login, onClose, isOpen, userData, loginSuccess, handleLoginSuccess: handleLoginSuccess } = useUser()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -24,8 +23,9 @@ const LoginModal = () => {
       sessionStorage.setItem('auth_token', userData?.token || '')
       sessionStorage.setItem('user', username)
       onClose()
+      handleLoginSuccess()
     }
-  }, [loginSuccess, onClose, userData?.token, username])
+  }, [handleLoginSuccess, loginSuccess, onClose, userData?.token, username])
 
   const onSubmit = useCallback(async () => {
     try {
