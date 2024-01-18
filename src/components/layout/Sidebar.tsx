@@ -7,13 +7,16 @@ import SidebarItem from './SidebarItem'
 import SidebarTweetButton from './SidebarTweetButton'
 import { useLogout } from '@/features/auth/useLogout'
 import toast from 'react-hot-toast'
+import { useUser } from '@/features/auth/useLogin'
 
 const Sidebar = () => {
   const navigate = useNavigate()
   const {logout} = useLogout()
+  const { hadleLogoutSuccess } = useUser()
   const handleLogout = () => {
     try {
       logout()
+      hadleLogoutSuccess()
       navigate(`/`)
     } catch (error) {
       toast.error('Erro ao fazer logout')

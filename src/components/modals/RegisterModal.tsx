@@ -81,12 +81,14 @@ const RegisterModal = () => {
       <Input
         placeholder="Senha"
         value={password}
+        type='password'
         onChange={(e) => setPassword(e.target.value)}
         disabled={isLoading}
       />
       <Input
         placeholder="Confirmar senha"
         value={confirmPassword}
+        type='password'
         onChange={(e) => setConfirmPassword(e.target.value)}
         disabled={isLoading}
       />

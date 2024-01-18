@@ -26,6 +26,9 @@ const loginSlice = createSlice({
     },
     onClose: (state) => {
       state.isOpen = false
+    },
+    setLoginSuccess: (state, action: PayloadAction<boolean>) => {
+      state.loginSuccess = action.payload
     }
   },
   extraReducers: (builder) => {
@@ -54,6 +57,6 @@ const loginSlice = createSlice({
   }
 })
 
-export const { onOpen, onClose } = loginSlice.actions
+export const { onOpen, onClose, setLoginSuccess } = loginSlice.actions
 
 export default loginSlice.reducer
